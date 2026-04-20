@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base.Theme.CitaYa" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <!-- 👇 AGREGA ESTO -->
+        <item name="colorControlNormal">@android:color/white</item>
+
+    </style>
+
+    <style name="Theme.CitaYa" parent="Base.Theme.CitaYa" />
+
+</resources>
