@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CitaYa">
         <activity
+            android:name=".PerfilActivity"
+            android:exported="false" />
+        <activity
             android:name=".CitasActivity"
             android:exported="false" />
         <activity
