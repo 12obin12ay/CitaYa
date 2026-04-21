@@ -12,20 +12,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CitaYa">
         <activity
-            android:name=".PerfilActivity"
+            android:name=".RegistroActivity"
             android:exported="false" />
+        <!-- LOGIN (INICIO DE LA APP) -->
         <activity
-            android:name=".CitasActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity> <!-- DEMÁS ACTIVIDADES -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PerfilActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CitasActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

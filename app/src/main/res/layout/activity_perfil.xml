@@ -31,7 +31,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/ic_arrow_back"
-                    android:tint="@android:color/white"/>
+                    app:tint="@android:color/white"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -110,7 +110,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_person"
-                        android:tint="#2D7DD2"/>
+                        app:tint="#2D7DD2"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -148,7 +148,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_email"
-                        android:tint="#2D7DD2"/>
+                        app:tint="#2D7DD2"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -185,7 +185,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_phone"
-                        android:tint="#2D7DD2"/>
+                        app:tint="#2D7DD2"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -222,7 +222,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_dni"
-                        android:tint="#2D7DD2"/>
+                        app:tint="#2D7DD2"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -273,7 +273,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_edit"
-                        android:tint="#2D7DD2"/>
+                        app:tint="#2D7DD2"/>
 
                     <TextView
                         android:layout_width="0dp"
@@ -286,7 +286,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/ic_arrow_forward"
-                        android:tint="#999"/>
+                        app:tint="#999"/>
                 </LinearLayout>
 
                 <!-- CONFIG -->
@@ -301,7 +301,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_settings"
-                        android:tint="#2D7DD2"/>
+                        app:tint="#2D7DD2"/>
 
                     <TextView
                         android:layout_width="0dp"
@@ -314,7 +314,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/ic_arrow_forward"
-                        android:tint="#999"/>
+                        app:tint="#999"/>
                 </LinearLayout>
 
                 <!-- TÉRMINOS -->
@@ -329,7 +329,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_document"
-                        android:tint="#2D7DD2"/>
+                        app:tint="#2D7DD2"/>
 
                     <TextView
                         android:layout_width="0dp"
@@ -342,7 +342,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/ic_arrow_forward"
-                        android:tint="#999"/>
+                        app:tint="#999"/>
                 </LinearLayout>
 
                 <!-- AYUDA -->
@@ -357,7 +357,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_help"
-                        android:tint="#2D7DD2"/>
+                        app:tint="#2D7DD2"/>
 
                     <TextView
                         android:layout_width="0dp"
@@ -370,23 +370,26 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/ic_arrow_forward"
-                        android:tint="#999"/>
+                        app:tint="#999"/>
                 </LinearLayout>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <!-- BOTÓN -->
+
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCerrarSesion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cerrar sesión"
             android:textColor="@android:color/white"
             android:layout_margin="16dp"
+            app:backgroundTint="#E53935"
             app:icon="@drawable/ic_exit"
             app:iconGravity="textStart"
             app:iconPadding="8dp"
-            app:backgroundTint="#E53935"/>
+            app:iconTint="@android:color/white"/>
 
     </LinearLayout>
 
