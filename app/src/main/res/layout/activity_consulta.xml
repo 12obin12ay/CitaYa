@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- HEADER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/bg_gradient"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_arrow_back"
+                    app:tint="@android:color/white"/>
+
+                <TextView
+                    android:text="Volver"
+                    android:textColor="@android:color/white"
+                    android:layout_marginStart="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <TextView
+                android:text="Consulta rápida"
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:text="Describe tus síntomas y te ayudaremos"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- INPUT -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="16dp">
+
+            <LinearLayout
+                android:padding="16dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="¿Qué síntomas presentas?"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_input"
+                    android:hint="Ej: dolor de cabeza y fiebre..."
+                    android:padding="10dp"
+                    android:gravity="top"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- TEXTO -->
+        <TextView
+            android:text="Síntomas comunes:"
+            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- CHIPS (TODOS EN UN SOLO CONTENEDOR) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:gravity="start">
+
+            <com.google.android.material.button.MaterialButton
+                android:text="Dolor de cabeza"
+                android:textColor="#2D7DD2"
+                android:layout_margin="4dp"
+                android:paddingHorizontal="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:backgroundTint="@android:color/white"
+                app:strokeColor="#2D7DD2"
+                app:strokeWidth="2dp"
+                app:cornerRadius="50dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:text="Fiebre"
+                android:textColor="#2D7DD2"
+                android:layout_margin="4dp"
+                android:paddingHorizontal="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:backgroundTint="@android:color/white"
+                app:strokeColor="#2D7DD2"
+                app:strokeWidth="2dp"
+                app:cornerRadius="50dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:text="Tos"
+                android:textColor="#2D7DD2"
+                android:layout_margin="4dp"
+                android:paddingHorizontal="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:backgroundTint="@android:color/white"
+                app:strokeColor="#2D7DD2"
+                app:strokeWidth="2dp"
+                app:cornerRadius="50dp"/>
+        </LinearLayout>
+
+        <!-- SEGUNDA FILA MÁS PEGADA -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:text="Dolor de garganta"
+                android:textColor="#2D7DD2"
+                android:layout_margin="4dp"
+                android:paddingHorizontal="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:backgroundTint="@android:color/white"
+                app:strokeColor="#2D7DD2"
+                app:strokeWidth="2dp"
+                app:cornerRadius="50dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:text="Dolor abdominal"
+                android:textColor="#2D7DD2"
+                android:layout_margin="4dp"
+                android:paddingHorizontal="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:backgroundTint="@android:color/white"
+                app:strokeColor="#2D7DD2"
+                app:strokeWidth="2dp"
+                app:cornerRadius="50dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:text="Fatiga"
+                android:textColor="#2D7DD2"
+                android:layout_margin="4dp"
+                android:paddingHorizontal="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:backgroundTint="@android:color/white"
+                app:strokeColor="#2D7DD2"
+                app:strokeWidth="2dp"
+                app:cornerRadius="50dp"/>
+        </LinearLayout>
+
+        <!-- AVISO -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:padding="12dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_warning"
+            android:gravity="center_vertical">
+
+            <!-- ICONO -->
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_help"
+                app:tint="#FF9800"/>
+
+            <!-- TEXTO -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Importante"
+                    android:textStyle="bold"
+                    android:textColor="#FF9800"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Esta es una orientación preliminar. No reemplaza una consulta médica profesional."
+                    android:textColor="#333333"
+                    android:textSize="13sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- BOTON -->
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Analizar síntomas"
+            android:layout_margin="16dp"
+            android:textColor="@android:color/white"
+
+            app:backgroundTint="#2D7DD2"
+            app:cornerRadius="12dp"
+
+            app:icon="@drawable/ic_arrow_search"
+            app:iconGravity="textEnd"
+            app:iconPadding="8dp"
+            app:iconTint="@android:color/white"/>
+
+
+
+    </LinearLayout>
+
+</ScrollView>

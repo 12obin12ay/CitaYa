@@ -4,7 +4,7 @@
     <!-- seleccionado -->
     <item android:color="#2D7DD2" android:state_checked="true"/>
 
-    <!-- no seleccionado -->
-    <item android:color="#797878" android:state_checked="false"/>
+    <!-- por defecto (no seleccionado) -->
+    <item android:color="#797878"/>
 
 </selector>

@@ -12,9 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CitaYa">
         <activity
-            android:name=".RegistroActivity"
+            android:name=".ConsultaActivity"
             android:exported="false" />
-        <!-- LOGIN (INICIO DE LA APP) -->
+        <activity
+            android:name=".NotificacionesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegistroActivity"
+            android:exported="false" /> <!-- LOGIN (INICIO DE LA APP) -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
