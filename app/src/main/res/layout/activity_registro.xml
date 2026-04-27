@@ -27,7 +27,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:src="@drawable/ic_arrow_back"
-                android:tint="#2D7DD2"/>
+                app:tint="#2D7DD2"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_person"
-                        android:tint="#999"/>
+                        app:tint="#999"/>
 
                     <EditText
                         android:id="@+id/etNombre"
@@ -130,7 +130,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_dni"
-                        android:tint="#999"/>
+                        app:tint="#999"/>
 
                     <EditText
                         android:id="@+id/etDni"
@@ -161,7 +161,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_phone"
-                        android:tint="#999"/>
+                        app:tint="#999"/>
 
                     <EditText
                         android:id="@+id/etTelefono"
@@ -192,7 +192,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_email"
-                        android:tint="#999"/>
+                        app:tint="#999"/>
 
                     <EditText
                         android:id="@+id/etCorreo"
@@ -223,7 +223,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_lock"
-                        android:tint="#999"/>
+                        app:tint="#999"/>
 
                     <EditText
                         android:id="@+id/etPassword"

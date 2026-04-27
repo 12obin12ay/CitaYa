@@ -12,10 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CitaYa">
         <activity
-            android:name=".ConsultaActivity"
+            android:name=".NotificacionesActivity"
             android:exported="false" />
         <activity
-            android:name=".NotificacionesActivity"
+            android:name=".EspecialidadesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ReservaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ConsultaActivity"
             android:exported="false" />
         <activity
             android:name=".RegistroActivity"

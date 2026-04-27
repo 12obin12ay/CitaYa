@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightGray">
@@ -12,79 +13,137 @@
         android:layout_width="0dp"
         android:layout_height="220dp"
         android:background="@drawable/bg_gradient"
-        android:padding="16dp"
+        android:paddingTop="16dp"
+
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- CARD ESTADO -->
+        <!-- TEXTO BIENVENIDA -->
+        <TextView
+            android:id="@+id/txtWelcome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="80dp"
+            android:text="Bienvenido de nuevo"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <!-- NOMBRE -->
         <TextView
             android:id="@+id/txtName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="80dp"
             android:text="Robinson Raymundo"
             android:textColor="@android:color/white"
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtWelcome" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtWelcome"/>
 
-        <TextView
-            android:id="@+id/txtWelcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Bienvenido de nuevo"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <!-- ICONO NOTIFICACIONES -->
+        <FrameLayout
+            android:id="@+id/btnNotificaciones"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_circle_light"
+            android:padding="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- ICONO CAMPANA -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_notifications"
+                app:tint="@android:color/white"/>
+
+            <!-- BADGE -->
+            <TextView
+                android:id="@+id/txtBadge"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="top|end"
+                android:background="@drawable/bg_icon_red"
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textSize="10sp"
+                android:gravity="center"
+                android:visibility="gone"/>
+        </FrameLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardEstado"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="6dp"
             app:layout_constraintTop_toBottomOf="@id/txtName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp">
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="86dp"
+                android:layout_height="80dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="💚"
-                    android:textSize="24sp" />
+                <!-- ICONO CORAZÓN -->
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_icon_green"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_heart"
+                    app:tint="@android:color/white"/>
 
+                <!-- TEXTOS -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Estado de salud"
-                        android:textColor="@color/textSecondary" />
+                        android:textColor="@color/textSecondary"
+                        android:textSize="13sp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Excelente"
                         android:textColor="@color/blue"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textSize="15sp"/>
                 </LinearLayout>
 
+                <!-- ICONO ECG -->
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_vital"
+                    app:tint="#4CAF50"/>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -94,22 +153,23 @@
     <!-- CARD 1 - CONSULTA -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardConsulta"
+        android:translationY="-35dp"
         android:layout_width="0dp"
         android:layout_height="130dp"
+        android:layout_margin="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         app:cardCornerRadius="16dp"
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/cardReservar"
-        android:layout_margin="12dp">
+        app:layout_constraintEnd_toStartOf="@id/cardReservar">
 
         <LinearLayout
-            android:id="@+id/cardAnalisis"
-            android:padding="16dp"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <ImageView
                 android:layout_width="40dp"
@@ -117,40 +177,44 @@
                 android:background="@drawable/bg_icon_blue"
                 android:padding="8dp"
                 android:src="@drawable/ic_consulta"
-                app:tint="@android:color/white"/>
+                app:tint="@android:color/white" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Consulta rápida"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp"/>
+                android:textStyle="bold" />
 
             <TextView
-                android:text="Analiza tus síntomas"
-                android:textSize="12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textSecondary"/>
+                android:text="Analiza tus síntomas"
+                android:textColor="@color/textSecondary"
+                android:textSize="12sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <!-- CARD 2 - RESERVAR -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardReservar"
+        android:translationY="-35dp"
         android:layout_width="0dp"
         android:layout_height="130dp"
+        android:layout_margin="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         app:cardCornerRadius="16dp"
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintStart_toEndOf="@id/cardConsulta"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="12dp">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
-            android:padding="16dp"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <ImageView
                 android:layout_width="40dp"
@@ -179,19 +243,23 @@
     <!-- CARD 3 - ESPECIALIDAD -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardEspecialidad"
+        android:translationY="-30dp"
         android:layout_width="0dp"
         android:layout_height="130dp"
+        android:layout_margin="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         app:cardCornerRadius="16dp"
         app:layout_constraintTop_toBottomOf="@id/cardConsulta"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/cardHistorial"
-        android:layout_margin="12dp">
+        app:layout_constraintEnd_toStartOf="@id/cardHistorial">
 
         <LinearLayout
-            android:padding="16dp"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <ImageView
                 android:layout_width="40dp"
@@ -199,40 +267,44 @@
                 android:background="@drawable/bg_icon_red"
                 android:padding="8dp"
                 android:src="@drawable/ic_especialidad"
-                app:tint="@android:color/white"/>
+                app:tint="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Especialidades"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ver todas las áreas"
-                android:textSize="12sp"
-                android:textColor="@color/textSecondary"/>
+                android:textColor="@color/textSecondary"
+                android:textSize="12sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <!-- CARD 4 - HISTORIAL -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardHistorial"
+        android:translationY="-30dp"
         android:layout_width="0dp"
         android:layout_height="130dp"
+        android:layout_margin="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         app:cardCornerRadius="16dp"
         app:layout_constraintTop_toBottomOf="@id/cardReservar"
         app:layout_constraintStart_toEndOf="@id/cardEspecialidad"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="12dp">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
-            android:padding="16dp"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <ImageView
                 android:layout_width="40dp"
@@ -258,6 +330,7 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
+        android:translationY="-30dp"
         android:id="@+id/cardConsejo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -265,28 +338,34 @@
         app:layout_constraintTop_toBottomOf="@id/cardHistorial"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp">
+        android:layout_margin="16dp"
+        android:backgroundTint="#E6F0EC">
 
-        <LinearLayout
-            android:padding="16dp"
-            android:orientation="vertical"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@drawable/bg_consejo">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Consejo de salud del día"
+            android:textStyle="bold"
+            android:textColor="#2D7DD2"
+        android:textSize="16sp"
+        android:layout_marginBottom="6dp"/>
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:text="Beber 8 vasos de agua al día ayuda a mantener una buena hidratación y mejora el funcionamiento de tus órganos."
+            android:textColor="#5F6B6B"
+            android:textSize="13sp"/>
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Consejo de salud del día"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Beber agua diariamente mejora tu bienestar."
-                android:textColor="@color/textSecondary"/>
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
+</androidx.cardview.widget.CardView>
 
     <!-- BOTTOM NAV -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
