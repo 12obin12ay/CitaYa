@@ -6,6 +6,7 @@
     android:background="#F2F2F2">
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -17,7 +18,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@drawable/ic_launcher"
-            android:layout_marginTop="40dp"/>
+            android:layout_marginTop="20dp"/>
 
         <!-- NOMBRE -->
         <TextView
@@ -25,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="CitaYa"
             android:textColor="#2D7DD2"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold">
         </TextView>
 
@@ -46,6 +47,7 @@
                 <!-- TITULO -->
 
                 <!-- CORREO -->
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -53,14 +55,14 @@
                     android:layout_marginBottom="18dp"
                     android:text="Bienvenido"
                     android:textColor="#2D7DD2"
-                    android:textSize="18sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Correo electrónico"
-                    android:textSize="13sp"/>
+                    android:textSize="18sp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -92,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Contraseña"
-                    android:textSize="13sp"
+                    android:textSize="18sp"
                     android:layout_marginTop="12dp"/>
 
                 <LinearLayout
@@ -127,22 +129,23 @@
                     android:layout_height="wrap_content"
                     android:text="¿Olvidaste tu contraseña?"
                     android:textColor="#2D7DD2"
-                    android:textSize="12sp"
+                    android:textSize="15sp"
                     android:layout_marginTop="8dp"/>
 
                 <!-- BOTON LOGIN -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnLogin"
-                    android:layout_width="match_parent"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:text="Ingresar"
                     android:textColor="@android:color/white"
                     android:layout_marginTop="16dp"
+                    android:layout_gravity="center"
                     app:backgroundTint="#2D7DD2"
+                    android:textSize="18sp"
                     app:icon="@drawable/ic_arrow_right"
                     app:iconGravity="textEnd"
                     app:iconTint="@android:color/white"/>
-
                 <!-- DIVIDER -->
                 <View
                     android:layout_width="match_parent"
@@ -154,11 +157,12 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnCrearCuenta"
-                    android:layout_width="match_parent"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:text="Crear cuenta nueva"
                     android:textColor="#2D7DD2"
-
+                    android:textSize="18sp"
+                    android:layout_gravity="center"
                     app:backgroundTint="@android:color/white"
                     app:strokeColor="#2D7DD2"
                     app:strokeWidth="2dp"

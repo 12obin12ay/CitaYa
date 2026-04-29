@@ -23,20 +23,25 @@
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/ic_arrow_back"
                     app:tint="@android:color/white"/>
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Volver"
                     android:textColor="@android:color/white"
-                    android:layout_marginStart="6dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="18sp"
+                    android:layout_marginStart="6dp"/>
             </LinearLayout>
 
             <!-- TITULO -->
@@ -55,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:text="5 notificaciones nuevas"
                 android:textColor="@android:color/white"
-                android:textSize="14sp"/>
+                android:textSize="18sp"/>
 
         </LinearLayout>
 
@@ -97,7 +102,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/bg_icon_blue_light"
-                            android:padding="10dp"
+
                             android:src="@drawable/ic_calendar"
                             app:tint="#2D7DD2"/>
 
@@ -119,13 +124,14 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:textSize="15sp"
                                 android:text="Tu cita con el Dr. Carlos Rodríguez es mañana a las 09:00 AM"/>
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Hace 2 horas"
-                                android:textSize="12sp"
+                                android:textSize="13sp"
                                 android:textColor="#999"/>
                         </LinearLayout>
 
@@ -183,7 +189,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/bg_icon_green_light"
-                            android:padding="10dp"
+
                             android:src="@drawable/ic_consulta"
                             app:tint="#43A047"/>
 
@@ -205,13 +211,14 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:textSize="15sp"
                                 android:text="Recordamos que debe llegar 15 minutos antes de su cita"/>
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Hace 5 horas"
-                                android:textSize="12sp"
+                                android:textSize="13sp"
                                 android:textColor="#999"/>
                         </LinearLayout>
 
@@ -270,7 +277,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/bg_icon_orange_light"
-                            android:padding="10dp"
+
                             android:src="@drawable/ic_help"
                             app:tint="#FF9800"/>
 
@@ -292,6 +299,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:textSize="15sp"
                                 android:text="Los resultados de tus análisis clínicos ya están disponibles"/>
 
                             <TextView
@@ -299,7 +307,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Hace 1 día"
                                 android:textColor="#999"
-                                android:textSize="12sp" />
+                                android:textSize="13sp" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -358,7 +366,6 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/bg_icon_green_light"
-                            android:padding="10dp"
                             android:src="@drawable/ic_check"
                             app:tint="#4CAF50"/>
 
@@ -380,13 +387,14 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:textSize="15sp"
                                 android:text="Tu cita con la Dra. María González ha sido confirmada para el 28 de Abril"/>
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Hace 2 días"
-                                android:textSize="12sp"
+                                android:textSize="13sp"
                                 android:textColor="#999"/>
                         </LinearLayout>
 
@@ -445,7 +453,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/bg_icon_blue_light"
-                            android:padding="10dp"
+
                             android:src="@drawable/ic_calendar"
                             app:tint="#2D7DD2"/>
 
@@ -467,13 +475,14 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textSize="15sp"
                                 android:text="Es momento de agendar tu proximo chequeo anual"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Hace 3 días"
-                                android:textSize="12sp"
+                                android:textSize="14sp"
                                 android:textColor="#999"/>
                         </LinearLayout>
 

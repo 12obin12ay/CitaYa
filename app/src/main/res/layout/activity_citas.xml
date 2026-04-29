@@ -1,58 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
-    tools:layout_editor_absoluteX="7dp"
-    tools:layout_editor_absoluteY="21dp">
+    android:background="@color/lightGray">
 
     <!-- HEADER -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
         android:layout_width="0dp"
-        android:layout_height="160dp"
+        android:layout_height="200dp"
         android:background="@drawable/bg_gradient"
-        android:paddingStart="16dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="16dp"
+        android:padding="20dp"
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <!-- VOLVER -->
-
-        <!-- TITULO -->
-
-        <!-- SUBTITULO -->
-
-        <TextView
-            android:id="@+id/txtTitulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:text="Mis citas"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnBack" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:text="Historial de consultas"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtTitulo" />
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:id="@+id/btnBack"
@@ -60,7 +25,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="4dp"
+
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -71,58 +36,81 @@
                 app:tint="@android:color/white"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Volver"
                 android:textColor="@android:color/white"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:layout_marginStart="6dp"/>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/txtTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="20dp"
+            android:text="Mis citas"
+            android:textColor="@android:color/white"
 
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnBack" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:text="Historial de consultas"
+
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtTitulo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- TABS -->
     <androidx.cardview.widget.CardView
         android:id="@+id/tabs"
         android:layout_width="0dp"
         android:layout_height="60dp"
+
         app:cardCornerRadius="30dp"
-        app:cardElevation="6dp"
+        app:cardElevation="8dp"
+
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="-40dp">
+        android:layout_marginTop="-35dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:padding="6dp">
 
-            <!-- BOTÓN ACTIVO -->
             <TextView
                 android:id="@+id/tabProximas"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_marginEnd="6dp"
                 android:background="@drawable/bg_tab_selected"
                 android:gravity="center"
                 android:text="Próximas"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"/>
 
-            <!-- BOTÓN INACTIVO -->
             <TextView
                 android:id="@+id/tabAnteriores"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@null"
                 android:gravity="center"
                 android:text="Anteriores"
                 android:textColor="#6B6B6B"
@@ -131,541 +119,66 @@
 
     </androidx.cardview.widget.CardView>
 
-    <!-- CONTENEDOR GENERAL -->
-    <LinearLayout
+    <!-- CONTENIDO -->
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="0dp"
+
         app:layout_constraintTop_toBottomOf="@id/tabs"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- 🔵 PROXIMAS -->
         <LinearLayout
-            android:id="@+id/layoutProximas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- CARD 1 -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <!-- NOMBRE + ESTADO -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Dr. Carlos Rodríguez"
-                            android:textStyle="bold"
-                            android:textSize="16sp"/>
-
-                        <!-- BADGE -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp"
-                            android:background="@drawable/bg_confirmado"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/ic_check"
-                                app:tint="#2E7D32"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=" Confirmada"
-                                android:textSize="12sp"
-                                android:textColor="#2E7D32"/>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <!-- ESPECIALIDAD -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cardiología"
-                        android:textColor="@color/blue"
-                        android:layout_marginTop="4dp"/>
-
-                    <!-- FECHA -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_calendar"
-                            app:tint="@color/blue"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="25 Abr 2026"/>
-                    </LinearLayout>
-
-                    <!-- HORA -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="4dp">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_clock"
-                            app:tint="@color/blue"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="09:00 AM"/>
-                    </LinearLayout>
-
-                    <!-- UBICACIÓN -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="4dp">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_location"
-                            app:tint="@color/blue"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Consultorio 302"/>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- CARD 2 -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <!-- NOMBRE + ESTADO -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Dr. Carlos Rodríguez"
-                            android:textStyle="bold"
-                            android:textSize="16sp"/>
-
-                        <!-- BADGE -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp"
-                            android:background="@drawable/bg_pendiente"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/ic_help"
-                                app:tint="#EF6C00"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=" Pendiente"
-                                android:textSize="12sp"
-                                android:textColor="#EF6C00"/>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <!-- ESPECIALIDAD -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cardiología"
-                        android:textColor="@color/blue"
-                        android:layout_marginTop="4dp"/>
-
-                    <!-- FECHA -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_calendar"
-                            app:tint="@color/blue"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="25 Abr 2026"/>
-                    </LinearLayout>
-
-                    <!-- HORA -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="4dp">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_clock"
-                            app:tint="@color/blue"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="09:00 AM"/>
-                    </LinearLayout>
-
-                    <!-- UBICACIÓN -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="4dp">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_location"
-                            app:tint="@color/blue"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Consultorio 302"/>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
-
-        <!-- 🟣 ANTERIORES -->
-        <LinearLayout
-            android:id="@+id/layoutAnteriores"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:padding="16dp">
 
-            <androidx.cardview.widget.CardView
+            <!-- 🔵 PROXIMAS -->
+            <LinearLayout
+                android:id="@+id/layoutProximas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp">
+                android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/contenedorProximas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical"/>
+            </LinearLayout>
 
-                    <!-- NOMBRE + ESTADO -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Dr. Luis Mendoza"
-                            android:textStyle="bold"
-                            android:textSize="16sp"/>
-
-                        <!-- BADGE COMPLETADA -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp"
-                            android:background="@drawable/bg_completada"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/ic_check"
-                                app:tint="#1976D2"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text=" Completada"
-                                android:textSize="12sp"
-                                android:textColor="#1976D2"/>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <!-- ESPECIALIDAD -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Pediatría"
-                        android:textColor="@color/blue"
-                        android:layout_marginTop="4dp"/>
-
-                    <!-- FECHA -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_calendar"
-                            app:tint="#9E9E9E"/> <!-- gris -->
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="15 Abr 2026"/>
-                    </LinearLayout>
-
-                    <!-- HORA -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="4dp">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_clock"
-                            app:tint="#9E9E9E"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="10:00 AM"/>
-                    </LinearLayout>
-
-                    <!-- UBICACIÓN -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="4dp">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_location"
-                            app:tint="#9E9E9E"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Consultorio 201"/>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
+            <!-- 🟣 ANTERIORES -->
+            <LinearLayout
+                android:id="@+id/layoutAnteriores"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
+                    android:id="@+id/contenedorAnteriores"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical"/>
+            </LinearLayout>
 
-                    <!-- NOMBRE + ESTADO -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+            <!-- 🔥 TU CARD BASE (OCULTA, SOLO PLANTILLA) -->
+            <LinearLayout
+                android:id="@+id/cardPlantilla"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_card"
+                android:visibility="gone">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Dr. Luis Mendoza"
-                            android:textStyle="bold"
-                            android:textSize="16sp"/>
-
-                        <!-- BADGE COMPLETADA -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp"
-                            android:background="@drawable/bg_cancelada"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/ic_close"
-                                app:tint="#D32F2F"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text=" Cancelada"
-                                android:textSize="12sp"
-                                android:textColor="#D32F2F"/>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <!-- ESPECIALIDAD -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Pediatría"
-                        android:textColor="@color/blue"
-                        android:layout_marginTop="4dp"/>
-
-                    <!-- FECHA -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_calendar"
-                            app:tint="#9E9E9E"/> <!-- gris -->
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="15 Abr 2026"/>
-                    </LinearLayout>
-
-                    <!-- HORA -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="4dp">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_clock"
-                            app:tint="#9E9E9E"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="10:00 AM"/>
-                    </LinearLayout>
-
-                    <!-- UBICACIÓN -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="4dp">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_location"
-                            app:tint="#9E9E9E"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Consultorio 201"/>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
         </LinearLayout>
-    </LinearLayout>
+
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

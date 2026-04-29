@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F2F2">
+    android:background="@color/lightGray">
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -33,6 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Volver"
+                android:textSize="18sp"
                 android:textColor="#2D7DD2"
                 android:layout_marginStart="6dp"/>
         </LinearLayout>
@@ -52,7 +54,7 @@
             android:text="CitaYa"
             android:textColor="#2D7DD2"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"/>
 
@@ -84,6 +86,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="18sp"
                     android:text="Nombre completo"/>
 
                 <LinearLayout
@@ -115,6 +118,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="18sp"
                     android:text="DNI"/>
 
                 <LinearLayout
@@ -146,6 +150,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="18sp"
                     android:text="Teléfono"/>
 
                 <LinearLayout
@@ -177,6 +182,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="18sp"
                     android:text="Correo electrónico"/>
 
                 <LinearLayout
@@ -208,6 +214,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="18sp"
                     android:text="Contraseña"/>
 
                 <LinearLayout
@@ -239,7 +246,9 @@
                 <!-- BOTON -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnCrearCuenta"
-                    android:layout_width="match_parent"
+                    android:textSize="20sp"
+                    android:layout_width="250dp"
+                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
                     android:text="Crear cuenta"
                     android:textColor="@android:color/white"

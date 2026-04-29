@@ -37,14 +37,14 @@
                     android:layout_height="wrap_content"
                     android:text=" Volver"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp"/>
+                    android:textSize="18sp"/>
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reservar cita"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:layout_marginTop="16dp"/>
@@ -52,6 +52,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="18sp"
                 android:text="Elige tu doctor y horario"
                 android:textColor="@android:color/white"/>
         </LinearLayout>
@@ -68,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:text="Doctores disponibles"
                 android:textStyle="bold"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:layout_marginBottom="10dp"/>
 
             <!-- DOCTOR 1 -->
@@ -125,8 +126,9 @@
 
                 <ImageView
                     android:id="@+id/check1"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/ic_check"
                     app:tint="#4CAF50"
                     android:visibility="gone"/>
@@ -186,8 +188,9 @@
 
                 <ImageView
                     android:id="@+id/check2"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/ic_check"
                     app:tint="#4CAF50"
                     android:visibility="gone"/>
@@ -247,8 +250,9 @@
 
                 <ImageView
                     android:id="@+id/check3"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/ic_check"
                     app:tint="#4CAF50"
                     android:visibility="gone"/>
@@ -307,8 +311,9 @@
 
                 <ImageView
                     android:id="@+id/check4"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/ic_check"
                     app:tint="#4CAF50"
                     android:visibility="gone"/>
@@ -338,7 +343,7 @@
                     android:focusable="false"
                     android:clickable="true"/>
             </LinearLayout>
-            <!-- HORARIOS -->
+
             <LinearLayout
                 android:id="@+id/layoutHorarios"
                 android:layout_width="match_parent"
@@ -347,6 +352,7 @@
                 android:visibility="gone"
                 android:layout_marginTop="16dp">
 
+                <!-- TITULO -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -361,35 +367,93 @@
                     android:layout_height="wrap_content"
                     android:gravity="center">
 
-                    <TextView
+                    <!-- HORA -->
+                    <LinearLayout
                         android:id="@+id/hora1"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
                         android:layout_margin="6dp"
+                        android:orientation="horizontal"
                         android:gravity="center"
-                        android:text="🕒 09:00"
-                        android:background="@drawable/bg_hora_normal"/>
+                        android:padding="8dp"
+                        android:background="@drawable/bg_hora_selector"
+                        android:clickable="true"
+                        android:focusable="true">
 
-                    <TextView
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_clock"
+                            app:tint="@color/icon_color_selector"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="09:00"
+                            android:textColor="@color/text_color_selector"
+                            android:textStyle="bold"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/hora2"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
                         android:layout_margin="6dp"
+                        android:orientation="horizontal"
                         android:gravity="center"
-                        android:text="🕒 10:00"
-                        android:background="@drawable/bg_hora_normal"/>
+                        android:padding="8dp"
+                        android:background="@drawable/bg_hora_selector"
+                        android:clickable="true"
+                        android:focusable="true">
 
-                    <TextView
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_clock"
+                            app:tint="@color/icon_color_selector"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="10:00"
+                            android:textColor="@color/text_color_selector"
+                            android:textStyle="bold"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/hora3"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
                         android:layout_margin="6dp"
+                        android:orientation="horizontal"
                         android:gravity="center"
-                        android:text="🕒 11:00"
-                        android:background="@drawable/bg_hora_normal"/>
+                        android:padding="8dp"
+                        android:background="@drawable/bg_hora_selector"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_clock"
+                            app:tint="@color/icon_color_selector"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="11:00"
+                            android:textColor="@color/text_color_selector"
+                            android:textStyle="bold"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <!-- FILA 2 -->
@@ -398,35 +462,92 @@
                     android:layout_height="wrap_content"
                     android:gravity="center">
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/hora4"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
                         android:layout_margin="6dp"
+                        android:orientation="horizontal"
                         android:gravity="center"
-                        android:text="🕒 13:00"
-                        android:background="@drawable/bg_hora_normal"/>
+                        android:padding="8dp"
+                        android:background="@drawable/bg_hora_selector"
+                        android:clickable="true"
+                        android:focusable="true">
 
-                    <TextView
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_clock"
+                            app:tint="@color/icon_color_selector"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="13:00"
+                            android:textColor="@color/text_color_selector"
+                            android:textStyle="bold"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/hora5"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
                         android:layout_margin="6dp"
+                        android:orientation="horizontal"
                         android:gravity="center"
-                        android:text="🕒 14:00"
-                        android:background="@drawable/bg_hora_normal"/>
+                        android:padding="8dp"
+                        android:background="@drawable/bg_hora_selector"
+                        android:clickable="true"
+                        android:focusable="true">
 
-                    <TextView
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_clock"
+                            app:tint="@color/icon_color_selector"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="14:00"
+                            android:textColor="@color/text_color_selector"
+                            android:textStyle="bold"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/hora6"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
                         android:layout_margin="6dp"
+                        android:orientation="horizontal"
                         android:gravity="center"
-                        android:text="🕒 15:00"
-                        android:background="@drawable/bg_hora_normal"/>
+                        android:padding="8dp"
+                        android:background="@drawable/bg_hora_selector"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_clock"
+                            app:tint="@color/icon_color_selector"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="15:00"
+                            android:textColor="@color/text_color_selector"
+                            android:textStyle="bold"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <!-- FILA 3 -->
@@ -435,35 +556,92 @@
                     android:layout_height="wrap_content"
                     android:gravity="center">
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/hora7"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
                         android:layout_margin="6dp"
+                        android:orientation="horizontal"
                         android:gravity="center"
-                        android:text="🕒 16:00"
-                        android:background="@drawable/bg_hora_normal"/>
+                        android:padding="8dp"
+                        android:background="@drawable/bg_hora_selector"
+                        android:clickable="true"
+                        android:focusable="true">
 
-                    <TextView
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_clock"
+                            app:tint="@color/icon_color_selector"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="16:00"
+                            android:textColor="@color/text_color_selector"
+                            android:textStyle="bold"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/hora8"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
                         android:layout_margin="6dp"
+                        android:orientation="horizontal"
                         android:gravity="center"
-                        android:text="🕒 17:00"
-                        android:background="@drawable/bg_hora_normal"/>
+                        android:padding="8dp"
+                        android:background="@drawable/bg_hora_selector"
+                        android:clickable="true"
+                        android:focusable="true">
 
-                    <TextView
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_clock"
+                            app:tint="@color/icon_color_selector"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="17:00"
+                            android:textColor="@color/text_color_selector"
+                            android:textStyle="bold"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/hora9"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
                         android:layout_margin="6dp"
+                        android:orientation="horizontal"
                         android:gravity="center"
-                        android:text="🕒 18:00"
-                        android:background="@drawable/bg_hora_normal"/>
+                        android:padding="8dp"
+                        android:background="@drawable/bg_hora_selector"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_clock"
+                            app:tint="@color/icon_color_selector"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="18:00"
+                            android:textColor="@color/text_color_selector"
+                            android:textStyle="bold"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
@@ -471,16 +649,18 @@
             <!-- BOTÓN -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnConfirmar"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
                 android:text="Confirmar cita"
                 android:textColor="@android:color/white"
                 android:layout_marginTop="16dp"
+                android:layout_gravity="center"
                 android:visibility="gone"
                 android:textSize="18dp"
                 app:backgroundTint="#43A047"
                 app:cornerRadius="12dp"
-
                 app:icon="@drawable/ic_calendar"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"

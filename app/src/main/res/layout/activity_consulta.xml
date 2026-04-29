@@ -22,20 +22,25 @@
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/ic_arrow_back"
                     app:tint="@android:color/white"/>
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Volver"
                     android:textColor="@android:color/white"
-                    android:layout_marginStart="6dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="18sp"
+                    android:layout_marginStart="6dp"/>
             </LinearLayout>
 
             <TextView
@@ -50,6 +55,7 @@
             <TextView
                 android:text="Describe tus síntomas y te ayudaremos"
                 android:textColor="@android:color/white"
+                android:textSize="18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -73,6 +79,7 @@
                     android:layout_height="wrap_content"/>
 
                 <EditText
+                    android:id="@+id/inputSintomas"
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
                     android:layout_marginTop="8dp"
@@ -96,40 +103,42 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            android:gravity="start">
+            android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDolorCabeza"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Dolor de cabeza"
                 android:textColor="#2D7DD2"
-                android:layout_margin="4dp"
-                android:paddingHorizontal="12dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 app:backgroundTint="@android:color/white"
+                app:cornerRadius="50dp"
+                android:layout_margin="4dp"
                 app:strokeColor="#2D7DD2"
-                app:strokeWidth="2dp"
-                app:cornerRadius="50dp"/>
+                app:strokeWidth="2dp" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFiebre"
+                android:layout_height="wrap_content"
                 android:text="Fiebre"
-                android:textColor="#2D7DD2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_margin="4dp"
-                android:paddingHorizontal="12dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:textColor="#2D7DD2"
                 app:backgroundTint="@android:color/white"
                 app:strokeColor="#2D7DD2"
                 app:strokeWidth="2dp"
                 app:cornerRadius="50dp"/>
 
             <com.google.android.material.button.MaterialButton
-                android:text="Tos"
-                android:textColor="#2D7DD2"
-                android:layout_margin="4dp"
-                android:paddingHorizontal="12dp"
-                android:layout_width="wrap_content"
+                android:id="@+id/btnTos"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="Tos"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:textColor="#2D7DD2"
                 app:backgroundTint="@android:color/white"
                 app:strokeColor="#2D7DD2"
                 app:strokeWidth="2dp"
@@ -145,11 +154,25 @@
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
-                android:text="Dolor de garganta"
+                android:id="@+id/btnVomito"
+                android:text="Vomito"
                 android:textColor="#2D7DD2"
                 android:layout_margin="4dp"
-                android:paddingHorizontal="12dp"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                app:backgroundTint="@android:color/white"
+                app:strokeColor="#2D7DD2"
+                app:strokeWidth="2dp"
+                android:layout_weight="1"
+                app:cornerRadius="50dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDiarrea"
+                android:text="Diarrea"
+                android:textColor="#2D7DD2"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 app:backgroundTint="@android:color/white"
                 app:strokeColor="#2D7DD2"
@@ -157,28 +180,16 @@
                 app:cornerRadius="50dp"/>
 
             <com.google.android.material.button.MaterialButton
-                android:text="Dolor abdominal"
-                android:textColor="#2D7DD2"
-                android:layout_margin="4dp"
-                android:paddingHorizontal="12dp"
-                android:layout_width="wrap_content"
+                android:id="@+id/btnFatiga"
+                android:layout_width="98dp"
                 android:layout_height="wrap_content"
-                app:backgroundTint="@android:color/white"
-                app:strokeColor="#2D7DD2"
-                app:strokeWidth="2dp"
-                app:cornerRadius="50dp"/>
-
-            <com.google.android.material.button.MaterialButton
+                android:layout_margin="4dp"
                 android:text="Fatiga"
                 android:textColor="#2D7DD2"
-                android:layout_margin="4dp"
-                android:paddingHorizontal="12dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 app:backgroundTint="@android:color/white"
+                app:cornerRadius="50dp"
                 app:strokeColor="#2D7DD2"
-                app:strokeWidth="2dp"
-                app:cornerRadius="50dp"/>
+                app:strokeWidth="2dp" />
         </LinearLayout>
 
         <!-- AVISO -->
@@ -225,6 +236,7 @@
         <!-- BOTON -->
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSintomas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Analizar síntomas"
