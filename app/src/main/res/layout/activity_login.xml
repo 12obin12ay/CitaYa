@@ -6,7 +6,6 @@
     android:background="#F2F2F2">
 
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -27,8 +26,7 @@
             android:text="CitaYa"
             android:textColor="#2D7DD2"
             android:textSize="22sp"
-            android:textStyle="bold">
-        </TextView>
+            android:textStyle="bold"/>
 
         <!-- CARD LOGIN -->
         <androidx.cardview.widget.CardView
@@ -45,9 +43,6 @@
                 android:padding="20dp">
 
                 <!-- TITULO -->
-
-                <!-- CORREO -->
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,6 +53,7 @@
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
+                <!-- CORREO -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -146,6 +142,7 @@
                     app:icon="@drawable/ic_arrow_right"
                     app:iconGravity="textEnd"
                     app:iconTint="@android:color/white"/>
+
                 <!-- DIVIDER -->
                 <View
                     android:layout_width="match_parent"
@@ -153,8 +150,7 @@
                     android:background="#DDD"
                     android:layout_marginVertical="16dp"/>
 
-                <!-- CREAR CUENTA -->
-
+                <!-- BOTON CREAR CUENTA CON EFECTO HOVER -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnCrearCuenta"
                     android:layout_width="250dp"
@@ -163,12 +159,63 @@
                     android:textColor="#2D7DD2"
                     android:textSize="18sp"
                     android:layout_gravity="center"
-                    app:backgroundTint="@android:color/white"
+                    android:backgroundTint="@android:color/white"
                     app:strokeColor="#2D7DD2"
                     app:strokeWidth="2dp"
                     app:cornerRadius="12dp"/>
 
+                <!-- TEXTO SOCIAL -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="O regístrate con"
+                    android:textSize="16sp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#777"
+                    android:layout_gravity="center"/>
+
+                <!-- FACEBOOK -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnFacebook"
+                    app:icon="@drawable/ic_fb"
+                    app:iconTint="@android:color/white"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:text="Continuar con Facebook"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    app:backgroundTint="#1877F2"
+                    android:textColor="@android:color/white"/>
+
+                <!-- INSTAGRAM -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnInstagram"
+                    app:icon="@drawable/ic_ig"
+                    app:iconTint="@android:color/white"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:text="Continuar con Instagram"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    app:backgroundTint="#E1306C"
+                    android:textColor="@android:color/white"/>
+
+                <!-- TIKTOK -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnTikTok"
+                    app:icon="@drawable/ic_tiktok"
+                    app:iconTint="@android:color/white"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:text="Continuar con TikTok"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    app:backgroundTint="#000000"
+                    android:textColor="@android:color/white"/>
             </LinearLayout>
+
+
+
 
         </androidx.cardview.widget.CardView>
 
