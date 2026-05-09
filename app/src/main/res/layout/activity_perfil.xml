@@ -31,8 +31,8 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/ic_arrow_back"
                     app:tint="@android:color/white"/>
 
@@ -47,11 +47,12 @@
 
             <!-- FOTO -->
             <ImageView
+                android:id="@+id/fotoPerfil"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:background="@drawable/bg_circle"
-                android:src="@drawable/perfil"
+                android:src="@drawable/perfil_masculino"
                 android:scaleType="fitCenter"
                 android:padding="6dp"
                 android:clipToOutline="true"/>
@@ -59,11 +60,12 @@
             <!-- NOMBRE -->
 
             <TextView
+                android:id="@+id/txtNombreHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                android:text="Robinson Raymundo"
+                android:text=""
                 android:textColor="@android:color/white"
                 android:textSize="22sp"
                 android:textStyle="bold" />
@@ -81,10 +83,10 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="-20dp"
+            android:layout_margin="-30dp"
             android:layout_marginTop="-40dp"
             android:layout_marginHorizontal="16dp"
-            app:cardCornerRadius="20dp"
+            app:cardCornerRadius="30dp"
             app:cardElevation="6dp">
 
             <LinearLayout
@@ -111,8 +113,8 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/ic_person"
                         app:tint="#2D7DD2"/>
 
@@ -131,9 +133,10 @@
                             android:textColor="#777"/>
 
                         <TextView
+                            android:id="@+id/tvNombreCompletoValor"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Robinson Raymundo" />
+                            android:text="" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -148,8 +151,8 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/ic_email"
                         app:tint="#2D7DD2"/>
 
@@ -168,9 +171,10 @@
                             android:textColor="#777"/>
 
                         <TextView
+                            android:id="@+id/tvCorreoValor"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="robinraymundos@gmail.com"/>
+                            android:text=""/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -185,8 +189,8 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/ic_phone"
                         app:tint="#2D7DD2"/>
 
@@ -205,9 +209,10 @@
                             android:textColor="#777"/>
 
                         <TextView
+                            android:id="@+id/tvTelefonoValor"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="987 654 321"/>
+                            android:text=""/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -222,8 +227,8 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/ic_dni"
                         app:tint="#2D7DD2"/>
 
@@ -242,9 +247,10 @@
                             android:textColor="#777"/>
 
                         <TextView
+                            android:id="@+id/tvDniValor"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="73711751"/>
+                            android:text=""/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -256,7 +262,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:cardCornerRadius="20dp"
+            app:cardCornerRadius="30dp"
             app:cardElevation="4dp">
 
             <LinearLayout
@@ -273,8 +279,8 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/ic_edit"
                         app:tint="#2D7DD2"/>
 
@@ -301,8 +307,8 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/ic_settings"
                         app:tint="#2D7DD2"/>
 
@@ -329,8 +335,8 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/ic_document"
                         app:tint="#2D7DD2"/>
 
@@ -357,8 +363,8 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/ic_help"
                         app:tint="#2D7DD2"/>
 

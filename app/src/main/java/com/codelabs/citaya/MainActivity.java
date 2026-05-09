@@ -40,6 +40,23 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        // --- Mostrar el nombre del usuario en el header ---
+        TextView txtName = findViewById(R.id.txtName);   // Asegúrate de que exista en activity_main.xml
+        SharedPreferences prefs = getSharedPreferences("user_data", MODE_PRIVATE);
+
+// Intentar obtener el nombre desde el Intent (viene del registro)
+        String nombreIntent = getIntent().getStringExtra("NOMBRE_USUARIO");
+
+        if (nombreIntent != null && !nombreIntent.isEmpty()) {
+            // Si viene del registro, lo guardamos y mostramos
+            prefs.edit().putString("nombre_completo", nombreIntent).apply();
+            txtName.setText(nombreIntent);
+        } else {
+            // Si no viene del registro, cargamos el último nombre guardado
+            String nombreGuardado = prefs.getString("nombre_completo", "Nombre del Paciente");
+            txtName.setText(nombreGuardado);
+        }
+
         // INICIALIZAR VISTAS
         txtBadge        = findViewById(R.id.txtBadge);
         bottomNav       = findViewById(R.id.bottomNav);
