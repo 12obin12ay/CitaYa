@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 🔔 Permiso notificaciones Android 13+ -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,42 +14,60 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CitaYa">
+
+        <!-- 🔔 Receiver de notificaciones -->
+        <receiver android:name=".RecordatorioActivity"
+            android:exported="false" />
         <activity
             android:name=".ResultadoActivity"
             android:exported="false" />
+
         <activity
             android:name=".NotificacionesActivity"
             android:exported="false" />
+
         <activity
             android:name=".EspecialidadesActivity"
             android:exported="false" />
+
         <activity
             android:name=".ReservaActivity"
             android:exported="false" />
+
         <activity
             android:name=".ConsultaActivity"
             android:exported="false" />
+
         <activity
             android:name=".RegistroActivity"
-            android:exported="false" /> <!-- LOGIN (INICIO DE LA APP) -->
+            android:exported="false" />
+
+        <!-- LOGIN (INICIO DE LA APP) -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- DEMÁS ACTIVIDADES -->
+
+        </activity>
+
+        <!-- DEMÁS ACTIVIDADES -->
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+
         <activity
             android:name=".PerfilActivity"
             android:exported="false" />
+
         <activity
             android:name=".CitasActivity"
             android:exported="false" />
+
     </application>
 
 </manifest>
