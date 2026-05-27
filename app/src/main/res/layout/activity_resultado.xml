@@ -164,27 +164,39 @@
 
                     <TextView
                         android:id="@+id/rec1"
-                        android:textSize="15sp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:layout_marginTop="8dp"
+                        android:padding="10dp"
+                        android:background="@drawable/bg_recomendacion"/>
 
                     <TextView
                         android:id="@+id/rec2"
-                        android:textSize="15sp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:layout_marginTop="8dp"
+                        android:padding="10dp"
+                        android:background="@drawable/bg_recomendacion"/>
 
                     <TextView
                         android:id="@+id/rec3"
-                        android:textSize="15sp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:layout_marginTop="8dp"
+                        android:padding="10dp"
+                        android:background="@drawable/bg_recomendacion"/>
 
                     <TextView
                         android:id="@+id/rec4"
-                        android:textSize="15sp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:layout_marginTop="8dp"
+                        android:padding="10dp"
+                        android:background="@drawable/bg_recomendacion"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

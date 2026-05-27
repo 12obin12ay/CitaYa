@@ -272,24 +272,26 @@ public class ConsultaActivity extends AppCompatActivity {
 
         String prompt =
 
-                "Eres un asistente médico de orientación preliminar.\n" +
+                "Actúa como asistente médico preliminar.\n"+
 
-                        "SOLO aceptas síntomas médicos.\n" +
+                        "SOLO acepta síntomas médicos.\n"+
 
-                        "Si el usuario escribe algo NO médico, responde EXACTAMENTE:\n" +
+                        "Si el usuario no escribe síntomas médicos responde EXACTAMENTE:\n"+
+                        "INVALIDO\n"+
+                        "No escribiste síntomas médicos válidos.\n\n"+
 
-                        "INVALIDO\n" +
+                        "Si sí son síntomas responde EXACTAMENTE ESTE FORMATO:\n\n"+
 
-                        "No escribiste síntomas médicos válidos.\n\n" +
+                        "ORIENTACION: una explicación corta\n"+
+                        "NIVEL: LEVE o MODERADO o GRAVE\n"+
+                        "ESPECIALIDAD: una sola especialidad médica\n"+
 
-                        "Si sí son síntomas, responde EXACTAMENTE ESTE FORMATO:\n\n" +
+                        "RECOMENDACIONES: EXACTAMENTE 4 recomendaciones separadas por | \n"+
 
-                        "ORIENTACION: texto corto\n" +
-                        "NIVEL: LEVE o MODERADO o GRAVE\n" +
-                        "ESPECIALIDAD: una sola especialidad\n" +
-                        "RECOMENDACIONES: recomendacion1|recomendacion2|recomendacion3|recomendacion4\n\n" +
+                        "Ejemplo:\n"+
+                        "RECOMENDACIONES: Descanso|Hidratación|Consulta médica|Evitar esfuerzo\n\n"+
 
-                        "Paciente:\n" +
+                        "Paciente:\n"+
 
                         sintomasUsuario;
 
