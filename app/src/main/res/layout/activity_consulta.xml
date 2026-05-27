@@ -251,7 +251,14 @@
             app:iconPadding="8dp"
             app:iconTint="@android:color/white"/>
 
-
+        <ProgressBar
+            android:id="@+id/progressConsulta"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

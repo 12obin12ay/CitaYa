@@ -11,6 +11,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
 
+import android.widget.ProgressBar;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
@@ -22,6 +25,8 @@ import java.util.Set;
 public class ConsultaActivity extends AppCompatActivity {
 
     private EditText input;
+    private ProgressBar progressBar;
+    private MaterialButton btnAnalizar;
 
     private static final String API_KEY = "";
 
@@ -34,8 +39,12 @@ public class ConsultaActivity extends AppCompatActivity {
 
         input = findViewById(R.id.inputSintomas);
 
+        progressBar = findViewById(R.id.progressConsulta);
+        btnAnalizar = findViewById(R.id.btnSintomas);
+
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
-        findViewById(R.id.btnSintomas).setOnClickListener(v -> analizar());
+
+        btnAnalizar.setOnClickListener(v -> analizar());
 
         configurarBoton(R.id.btnDolorCabeza);
         configurarBoton(R.id.btnFiebre);
@@ -64,6 +73,22 @@ public class ConsultaActivity extends AppCompatActivity {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
+    }
+
+    private void mostrarCarga() {
+        progressBar.setVisibility(View.VISIBLE);
+
+        btnAnalizar.setEnabled(false);
+
+        btnAnalizar.setText("Analizando...");
+    }
+
+    private void ocultarCarga() {
+        progressBar.setVisibility(View.GONE);
+
+        btnAnalizar.setEnabled(true);
+
+        btnAnalizar.setText("Analizar síntomas");
     }
 
     private void configurarBoton(int id) {
@@ -120,6 +145,7 @@ public class ConsultaActivity extends AppCompatActivity {
                         sintomasUsuario;
 
         GeminiRequest request = new GeminiRequest(prompt);
+        mostrarCarga();
 
         api.generar(API_KEY, request)
                 .enqueue(new retrofit2.Callback<GeminiResponse>() {
@@ -128,6 +154,9 @@ public class ConsultaActivity extends AppCompatActivity {
                             retrofit2.Call<GeminiResponse> call,
                             retrofit2.Response<GeminiResponse> response
                     ) {
+
+                        ocultarCarga();
+
                         if (response.isSuccessful() && response.body() != null) {
                             String textoIA = response.body()
                                     .candidates
@@ -203,6 +232,9 @@ public class ConsultaActivity extends AppCompatActivity {
                             retrofit2.Call<GeminiResponse> call,
                             Throwable t
                     ) {
+
+                        ocultarCarga();
+
                         Snackbar.make(
                                 input,
                                 "Error IA: " + t.getMessage(),
