@@ -4,8 +4,6 @@ plugins {
 
 android {
     namespace 'com.codelabs.citaya'
-
-
     compileSdk 36
 
     defaultConfig {
@@ -39,8 +37,11 @@ dependencies {
 
     // ✅ SOLO UNA versión de Material
     implementation 'com.google.android.material:material:1.11.0'
-
     implementation 'androidx.cardview:cardview:1.0.0'
+
+    implementation libs.retrofit
+    implementation libs.retrofit.gson
+    implementation libs.okhttp.logging
 
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit

@@ -1,11 +1,14 @@
 package com.codelabs.citaya;
 
+import com.codelabs.citaya.network.*;
+
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,9 +21,11 @@ import java.util.*;
 public class ConsultaActivity extends AppCompatActivity {
 
     private EditText input;
+
+    private static final String API_KEY = "AIzaSyCRFeIqMfPOSHZkEBp9OZ684sXW-PL3Sow";
     private Set<String> sintomasSeleccionados = new LinkedHashSet<>();
 
-    // 🔥 MODELO (AGREGADO NIVEL)
+    // MODELO (AGREGADO NIVEL)
     private static class Enfermedad {
         String nombre, especialidad, nivel;
         List<String> sintomas, recomendaciones;
@@ -173,7 +178,13 @@ public class ConsultaActivity extends AppCompatActivity {
             return;
         }
 
-        Set<String> sintomasSet = new HashSet<>(sintomasSeleccionados);
+        consultarGemini(
+                String.join(", ", sintomasSeleccionados)
+        );
+
+        return;
+
+        /*Set<String> sintomasSet = new HashSet<>(sintomasSeleccionados);
 
         List<Resultado> resultados = diagnosticarTop(sintomasSet);
 
@@ -218,7 +229,7 @@ public class ConsultaActivity extends AppCompatActivity {
         // 🔥 ENVÍO DEL NIVEL
         intent.putExtra("nivel", nivel);
 
-        startActivity(intent);
+        startActivity(intent); */
     }
 
     private static class Resultado {
@@ -253,5 +264,171 @@ public class ConsultaActivity extends AppCompatActivity {
         lista.sort((a, b) -> b.score - a.score);
 
         return lista.size() > 3 ? lista.subList(0, 3) : lista;
+    }
+
+    private void consultarGemini(String sintomasUsuario){
+
+        GeminiApi api = RetrofitClient.getClient().create(GeminiApi.class);
+
+        String prompt =
+
+                "Eres un asistente médico de orientación preliminar.\n" +
+
+                        "SOLO aceptas síntomas médicos.\n" +
+
+                        "Si el usuario escribe algo NO médico, responde EXACTAMENTE:\n" +
+
+                        "INVALIDO\n" +
+
+                        "No escribiste síntomas médicos válidos.\n\n" +
+
+                        "Si sí son síntomas, responde EXACTAMENTE ESTE FORMATO:\n\n" +
+
+                        "ORIENTACION: texto corto\n" +
+                        "NIVEL: LEVE o MODERADO o GRAVE\n" +
+                        "ESPECIALIDAD: una sola especialidad\n" +
+                        "RECOMENDACIONES: recomendacion1|recomendacion2|recomendacion3|recomendacion4\n\n" +
+
+                        "Paciente:\n" +
+
+                        sintomasUsuario;
+
+        GeminiRequest request = new GeminiRequest(prompt);
+
+        api.generar(API_KEY, request)
+
+                .enqueue(
+
+                        new retrofit2.Callback<GeminiResponse>() {
+
+                            @Override
+                            public void onResponse(
+
+                                    retrofit2.Call<GeminiResponse> call,
+
+                                    retrofit2.Response<GeminiResponse> response
+                            ) {
+
+                                if(response.isSuccessful() && response.body()!=null){
+
+                                    String textoIA =
+                                            response.body()
+                                                    .candidates
+                                                    .get(0)
+                                                    .content
+                                                    .parts
+                                                    .get(0)
+                                                    .text;
+
+                                    Log.d("GEMINI_OK", textoIA);
+
+                                    if(textoIA.startsWith("INVALIDO")){
+
+                                        Snackbar.make(
+                                                input,
+                                                "Solo escribe síntomas médicos.",
+                                                Snackbar.LENGTH_LONG
+                                        ).show();
+
+                                        return;
+                                    }
+
+                                    String orientacion = "";
+                                    String nivel = "LEVE";
+                                    String especialidad = "Medicina General";
+                                    String recomendaciones = "";
+
+                                    String[] lineas = textoIA.split("\n");
+
+                                    for(String linea : lineas){
+
+                                        if(linea.startsWith("ORIENTACION:")){
+
+                                            orientacion =
+                                                    linea.replace("ORIENTACION:","").trim();
+
+                                        }
+
+                                        else if(linea.startsWith("NIVEL:")){
+
+                                            nivel =
+                                                    linea.replace("NIVEL:","").trim();
+
+                                        }
+
+                                        else if(linea.startsWith("ESPECIALIDAD:")){
+
+                                            especialidad =
+                                                    linea.replace("ESPECIALIDAD:","").trim();
+
+                                        }
+
+                                        else if(linea.startsWith("RECOMENDACIONES:")){
+
+                                            recomendaciones =
+                                                    linea.replace("RECOMENDACIONES:","").trim();
+
+                                        }
+                                    }
+
+                                    Intent intent =
+                                            new Intent(
+                                                    ConsultaActivity.this,
+                                                    ResultadoActivity.class
+                                            );
+
+                                    intent.putExtra(
+                                            "sintomas",
+                                            String.join(", ", sintomasSeleccionados)
+                                    );
+
+                                    intent.putExtra(
+                                            "resultado",
+                                            orientacion
+                                    );
+
+                                    intent.putExtra(
+                                            "nivel",
+                                            nivel
+                                    );
+
+                                    intent.putExtra(
+                                            "especialidad",
+                                            especialidad
+                                    );
+
+                                    intent.putExtra(
+                                            "recomendaciones",
+                                            recomendaciones
+                                    );
+
+                                    startActivity(intent);
+
+                                }else{
+
+                                    Log.d("GEMINI_ERROR",
+                                            "Code: " + response.code());
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(
+
+                                    retrofit2.Call<GeminiResponse> call,
+
+                                    Throwable t
+                            ) {
+
+                                Snackbar.make(
+                                        input,
+                                        "Error IA: " + t.getMessage(),
+                                        Snackbar.LENGTH_LONG
+                                ).show();
+                            }
+                        }
+
+                );
     }
 }
