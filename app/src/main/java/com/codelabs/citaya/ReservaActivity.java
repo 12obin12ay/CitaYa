@@ -1,26 +1,35 @@
 package com.codelabs.citaya;
 
 import com.google.android.material.snackbar.Snackbar;
+
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+
+import android.graphics.BitmapFactory;
+
+import android.os.Build;
 import android.os.Bundle;
+
 import android.view.View;
+
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.graphics.BitmapFactory;
-import android.os.Build;
-import android.app.PendingIntent;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+
 import com.google.android.material.button.MaterialButton;
-import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,13 +37,17 @@ import java.util.Set;
 public class ReservaActivity extends AppCompatActivity {
 
     LinearLayout doc1, doc2, doc3, doc4;
+
     ImageView check1, check2, check3, check4;
+
     LinearLayout layoutFecha;
     EditText etFecha;
 
     LinearLayout layoutHorarios;
 
-    LinearLayout hora1, hora2, hora3, hora4, hora5, hora6, hora7, hora8, hora9;
+    LinearLayout hora1, hora2, hora3,
+            hora4, hora5, hora6,
+            hora7, hora8, hora9;
 
     MaterialButton btnConfirmar;
 
@@ -77,21 +90,25 @@ public class ReservaActivity extends AppCompatActivity {
         btnConfirmar = findViewById(R.id.btnConfirmar);
 
         // DOCTORES
+
         doc1.setOnClickListener(v -> {
             seleccionar(1);
             doctorSeleccionado = "Dr. Carlos Rodríguez";
             especialidadSeleccionada = "Cardiología";
         });
+
         doc2.setOnClickListener(v -> {
             seleccionar(2);
             doctorSeleccionado = "Dra. María González";
             especialidadSeleccionada = "Medicina General";
         });
+
         doc3.setOnClickListener(v -> {
             seleccionar(3);
             doctorSeleccionado = "Dr. Luis Mendoza";
             especialidadSeleccionada = "Pediatría";
         });
+
         doc4.setOnClickListener(v -> {
             seleccionar(4);
             doctorSeleccionado = "Dra. Ana Fernández";
@@ -111,57 +128,84 @@ public class ReservaActivity extends AppCompatActivity {
         }
 
         // CONFIRMAR
+
         btnConfirmar.setOnClickListener(v -> {
 
             if (doctorSeleccionado.isEmpty()) {
-                Toast.makeText(this, "Selecciona un doctor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,
+                        "Selecciona un doctor",
+                        Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (etFecha.getText().toString().isEmpty()) {
-                Toast.makeText(this, "Selecciona una fecha", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,
+                        "Selecciona una fecha",
+                        Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (horaSeleccionada.isEmpty()) {
-                Toast.makeText(this, "Selecciona una hora", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,
+                        "Selecciona una hora",
+                        Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // ✅ Declaradas UNA sola vez, después de las validaciones
             String fecha = etFecha.getText().toString();
-            String ubicacion = generarConsultorio(especialidadSeleccionada);
-            String horaFormateada = convertirHoraAMPM(horaSeleccionada);
 
-            String cita = doctorSeleccionado + "|" +
-                    especialidadSeleccionada + "|" +
-                    fecha + "|" +
-                    horaFormateada + "|" +
-                    ubicacion + "|PENDIENTE";
+            String ubicacion =
+                    generarConsultorio(especialidadSeleccionada);
 
-            SharedPreferences prefs = getSharedPreferences("citas", MODE_PRIVATE);
+            String horaFormateada =
+                    convertirHoraAMPM(horaSeleccionada);
 
-            Set<String> citas = prefs.getStringSet("lista", new HashSet<>());
+            String cita =
+                    doctorSeleccionado + "|" +
+                            especialidadSeleccionada + "|" +
+                            fecha + "|" +
+                            horaFormateada + "|" +
+                            ubicacion + "|PENDIENTE";
+
+            SharedPreferences prefs =
+                    getSharedPreferences("citas", MODE_PRIVATE);
+
+            Set<String> citas =
+                    prefs.getStringSet("lista", new HashSet<>());
+
             Set<String> nuevaLista = new HashSet<>(citas);
 
-            Set<String> ocupados = prefs.getStringSet("ocupados", new HashSet<>());
-            Set<String> copiaOcupados = new HashSet<>(ocupados);
+            Set<String> ocupados =
+                    prefs.getStringSet("ocupados", new HashSet<>());
+
+            Set<String> copiaOcupados =
+                    new HashSet<>(ocupados);
 
             String clave = fecha + "_" + horaSeleccionada;
 
             // VALIDAR DUPLICADO
+
             if (copiaOcupados.contains(clave)) {
-                Snackbar.make(findViewById(android.R.id.content),
+
+                Snackbar.make(
+                        findViewById(android.R.id.content),
                         "Este horario ya está ocupado",
-                        Snackbar.LENGTH_SHORT).show();
+                        Snackbar.LENGTH_SHORT
+                ).show();
+
                 return;
             }
 
-            // MÁXIMO 3 CITAS
+            // MÁXIMO 3
+
             if (nuevaLista.size() >= 3) {
-                Snackbar.make(findViewById(android.R.id.content),
+
+                Snackbar.make(
+                        findViewById(android.R.id.content),
                         "Máximo 3 citas permitidas",
-                        Snackbar.LENGTH_SHORT).show();
+                        Snackbar.LENGTH_SHORT
+                ).show();
+
                 return;
             }
 
@@ -173,8 +217,8 @@ public class ReservaActivity extends AppCompatActivity {
                     .putStringSet("ocupados", copiaOcupados)
                     .apply();
 
+            // NOTIFICACIÓN INMEDIATA
 
-            // ✅ Notificación instantánea con todos los datos correctos
             mostrarNotificacionInstantanea(
                     doctorSeleccionado,
                     especialidadSeleccionada,
@@ -183,7 +227,8 @@ public class ReservaActivity extends AppCompatActivity {
                     ubicacion
             );
 
-            // ✅ Recordatorio programado con todos los datos correctos
+            // RECORDATORIO
+
             programarRecordatorio(
                     doctorSeleccionado,
                     especialidadSeleccionada,
@@ -192,55 +237,81 @@ public class ReservaActivity extends AppCompatActivity {
                     ubicacion
             );
 
-            Snackbar.make(findViewById(android.R.id.content),
+            Snackbar.make(
+                    findViewById(android.R.id.content),
                     "Cita Registrada",
-                    Snackbar.LENGTH_SHORT).show();
+                    Snackbar.LENGTH_SHORT
+            ).show();
 
-            startActivity(new Intent(this, CitasActivity.class));
+            startActivity(
+                    new Intent(this, CitasActivity.class)
+            );
         });
     }
 
     private void mostrarCalendario() {
+
         Calendar c = Calendar.getInstance();
 
-        DatePickerDialog dp = new DatePickerDialog(this,
-                (view, y, m, d) -> {
+        DatePickerDialog dp =
+                new DatePickerDialog(this,
 
-                    String fechaSeleccionada = d + "/" + (m + 1) + "/" + y;
-                    etFecha.setText(fechaSeleccionada);
-                    layoutHorarios.setVisibility(View.VISIBLE);
+                        (view, y, m, d) -> {
 
-                    SharedPreferences prefs = getSharedPreferences("citas", MODE_PRIVATE);
-                    Set<String> ocupados = prefs.getStringSet("ocupados", new HashSet<>());
+                            String fechaSeleccionada =
+                                    d + "/" + (m + 1) + "/" + y;
 
-                    LinearLayout[] horas = {
-                            hora1, hora2, hora3,
-                            hora4, hora5, hora6,
-                            hora7, hora8, hora9
-                    };
+                            etFecha.setText(fechaSeleccionada);
 
-                    for (LinearLayout h : horas) {
-                        String hora = obtenerHora(h);
-                        String clave = fechaSeleccionada + "_" + hora;
+                            layoutHorarios.setVisibility(View.VISIBLE);
 
-                        if (ocupados.contains(clave)) {
-                            h.setEnabled(false);
-                            h.setAlpha(0.3f);
-                        } else {
-                            h.setEnabled(true);
-                            h.setAlpha(1f);
-                        }
-                    }
-                },
-                c.get(Calendar.YEAR),
-                c.get(Calendar.MONTH),
-                c.get(Calendar.DAY_OF_MONTH));
+                            SharedPreferences prefs =
+                                    getSharedPreferences("citas", MODE_PRIVATE);
+
+                            Set<String> ocupados =
+                                    prefs.getStringSet("ocupados",
+                                            new HashSet<>());
+
+                            LinearLayout[] horas = {
+                                    hora1, hora2, hora3,
+                                    hora4, hora5, hora6,
+                                    hora7, hora8, hora9
+                            };
+
+                            for (LinearLayout h : horas) {
+
+                                String hora = obtenerHora(h);
+
+                                String clave =
+                                        fechaSeleccionada + "_" + hora;
+
+                                if (ocupados.contains(clave)) {
+
+                                    h.setEnabled(false);
+                                    h.setAlpha(0.3f);
+
+                                } else {
+
+                                    h.setEnabled(true);
+                                    h.setAlpha(1f);
+                                }
+                            }
+
+                        },
+
+                        c.get(Calendar.YEAR),
+                        c.get(Calendar.MONTH),
+                        c.get(Calendar.DAY_OF_MONTH)
+                );
 
         dp.show();
     }
 
     private String obtenerHora(LinearLayout layout) {
-        TextView txt = (TextView) layout.getChildAt(1);
+
+        TextView txt =
+                (TextView) layout.getChildAt(1);
+
         return txt.getText().toString();
     }
 
@@ -259,6 +330,7 @@ public class ReservaActivity extends AppCompatActivity {
         }
 
         seleccionada.setSelected(true);
+
         horaSeleccionada = obtenerHora(seleccionada);
 
         btnConfirmar.setVisibility(View.VISIBLE);
@@ -279,13 +351,19 @@ public class ReservaActivity extends AppCompatActivity {
         if (d == 1) {
             doc1.setBackgroundResource(R.drawable.bg_card_selected);
             check1.setVisibility(View.VISIBLE);
-        } else if (d == 2) {
+        }
+
+        else if (d == 2) {
             doc2.setBackgroundResource(R.drawable.bg_card_selected);
             check2.setVisibility(View.VISIBLE);
-        } else if (d == 3) {
+        }
+
+        else if (d == 3) {
             doc3.setBackgroundResource(R.drawable.bg_card_selected);
             check3.setVisibility(View.VISIBLE);
-        } else if (d == 4) {
+        }
+
+        else if (d == 4) {
             doc4.setBackgroundResource(R.drawable.bg_card_selected);
             check4.setVisibility(View.VISIBLE);
         }
@@ -293,13 +371,16 @@ public class ReservaActivity extends AppCompatActivity {
         layoutFecha.setVisibility(View.VISIBLE);
 
         etFecha.setText("");
+
         layoutHorarios.setVisibility(View.GONE);
+
         btnConfirmar.setVisibility(View.GONE);
 
         resetHoras();
     }
 
     private void resetHoras() {
+
         LinearLayout[] horas = {
                 hora1, hora2, hora3,
                 hora4, hora5, hora6,
@@ -307,6 +388,7 @@ public class ReservaActivity extends AppCompatActivity {
         };
 
         for (LinearLayout h : horas) {
+
             h.setSelected(false);
             h.setEnabled(true);
             h.setAlpha(1f);
@@ -320,15 +402,29 @@ public class ReservaActivity extends AppCompatActivity {
         int piso = 1;
 
         switch (especialidad) {
-            case "Cardiología":      piso = 1; break;
-            case "Medicina General": piso = 2; break;
-            case "Pediatría":        piso = 3; break;
-            case "Dermatología":     piso = 4; break;
+
+            case "Cardiología":
+                piso = 1;
+                break;
+
+            case "Medicina General":
+                piso = 2;
+                break;
+
+            case "Pediatría":
+                piso = 3;
+                break;
+
+            case "Dermatología":
+                piso = 4;
+                break;
         }
 
         int numero = (int) (Math.random() * 10) + 1;
 
-        return "Piso " + piso + " - Consultorio " + piso + "0" + numero;
+        return "Piso " + piso +
+                " - Consultorio " +
+                piso + "0" + numero;
     }
 
     private void mostrarNotificacionInstantanea(
@@ -338,23 +434,25 @@ public class ReservaActivity extends AppCompatActivity {
             String hora,
             String lugar
     ) {
+
         String channelId = "CITAS_CHANNEL";
 
         NotificationManager manager =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                (NotificationManager)
+                        getSystemService(NOTIFICATION_SERVICE);
 
-        // CANAL ANDROID 8+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    channelId,
-                    "Citas",
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            channel.setDescription("Notificaciones de citas médicas");
+
+            NotificationChannel channel =
+                    new NotificationChannel(
+                            channelId,
+                            "Citas",
+                            NotificationManager.IMPORTANCE_HIGH
+                    );
+
             manager.createNotificationChannel(channel);
         }
 
-        // TEXTO DETALLADO
         String mensaje =
                 "📅 Día: " + fecha + "\n" +
                         "🕒 Hora: " + hora + "\n" +
@@ -362,42 +460,90 @@ public class ReservaActivity extends AppCompatActivity {
                         "👨‍⚕️ " + doctor + "\n" +
                         "🩺 Especialidad: " + especialidad;
 
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Intent intent =
+                new Intent(this, MainActivity.class);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                this,
-                0,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
+        PendingIntent pendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT |
+                                PendingIntent.FLAG_IMMUTABLE
+                );
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this, channelId)
+
                         .setSmallIcon(R.drawable.ic_check)
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo))
-                        .setColor(ContextCompat.getColor(this, R.color.teal_700))
+
+                        .setLargeIcon(
+                                BitmapFactory.decodeResource(
+                                        getResources(),
+                                        R.drawable.ic_logo
+                                )
+                        )
+
+                        .setColor(
+                                ContextCompat.getColor(
+                                        this,
+                                        R.color.teal_700
+                                )
+                        )
+
                         .setContentTitle("Cita reservada ✅")
-                        .setContentText("Tu cita médica fue registrada")
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText(mensaje))
+
+                        .setContentText(
+                                "Tu cita médica fue registrada"
+                        )
+
+                        .setStyle(
+                                new NotificationCompat.BigTextStyle()
+                                        .bigText(mensaje)
+                        )
+
                         .setContentIntent(pendingIntent)
+
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
+
                         .setDefaults(NotificationCompat.DEFAULT_ALL)
+
                         .setAutoCancel(true);
 
-        manager.notify((int) System.currentTimeMillis(), builder.build());
+        manager.notify(
+                (int) System.currentTimeMillis(),
+                builder.build()
+        );
     }
 
     private String convertirHoraAMPM(String hora24) {
+
         try {
+
             String[] partes = hora24.split(":");
+
             int hora = Integer.parseInt(partes[0]);
+
             String minutos = partes[1];
-            String periodo = (hora >= 12) ? "PM" : "AM";
+
+            String periodo =
+                    (hora >= 12) ? "PM" : "AM";
+
             hora = hora % 12;
-            if (hora == 0) hora = 12;
-            return String.format("%02d:%s %s", hora, minutos, periodo);
+
+            if (hora == 0) {
+                hora = 12;
+            }
+
+            return String.format(
+                    "%02d:%s %s",
+                    hora,
+                    minutos,
+                    periodo
+            );
+
         } catch (Exception e) {
+
             return hora24;
         }
     }
@@ -409,69 +555,85 @@ public class ReservaActivity extends AppCompatActivity {
             String hora,
             String lugar
     ) {
+
         try {
-            // fecha: dd/MM/yyyy
+
             String[] fechaParts = fecha.split("/");
 
-            // hora: 09:30 AM o 09:30 PM
             String[] horaSplit = hora.split(" ");
+
             String[] hm = horaSplit[0].split(":");
 
             int hora24 = Integer.parseInt(hm[0]);
-            int minutos = Integer.parseInt(hm[1]);
-            String periodo = horaSplit.length > 1 ? horaSplit[1] : "";
 
-            // Convertir a formato 24h
-            if (periodo.equals("PM") && hora24 != 12) hora24 += 12;
-            if (periodo.equals("AM") && hora24 == 12) hora24 = 0;
+            int minutos = Integer.parseInt(hm[1]);
+
+            String periodo =
+                    horaSplit.length > 1
+                            ? horaSplit[1]
+                            : "";
+
+            if (periodo.equals("PM") && hora24 != 12) {
+                hora24 += 12;
+            }
+
+            if (periodo.equals("AM") && hora24 == 12) {
+                hora24 = 0;
+            }
 
             Calendar calendar = Calendar.getInstance();
+
             calendar.set(
-                    Integer.parseInt(fechaParts[2]),      // año
-                    Integer.parseInt(fechaParts[1]) - 1,  // mes
-                    Integer.parseInt(fechaParts[0]),       // día
+                    Integer.parseInt(fechaParts[2]),
+                    Integer.parseInt(fechaParts[1]) - 1,
+                    Integer.parseInt(fechaParts[0]),
                     hora24,
                     minutos,
                     0
             );
 
-            // Restar 20 minutos para recordatorio anticipado
-            calendar.add(Calendar.MINUTE, -20);
+            // 🔥 PRUEBA INMEDIATA
+            // luego cambias esto por HOUR
 
-            Intent intent = new Intent(this, RecordatorioActivity.class);
+            calendar.add(Calendar.MINUTE, -1);
+
+            Intent intent =
+                    new Intent(this,
+                            RecordatorioActivity.class);
+
             intent.putExtra("doctor", doctor);
             intent.putExtra("especialidad", especialidad);
             intent.putExtra("fecha", fecha);
             intent.putExtra("hora", hora);
             intent.putExtra("lugar", lugar);
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                    this,
-                    (int) System.currentTimeMillis(),
-                    intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-            );
+            // 🔥 PRUEBA INMEDIATA
+            sendBroadcast(intent);
 
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                if (!alarmManager.canScheduleExactAlarms()) {
-                    Intent intent1 = new Intent(
-                            android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+            PendingIntent pendingIntent =
+                    PendingIntent.getBroadcast(
+                            this,
+                            (int) System.currentTimeMillis(),
+                            intent,
+                            PendingIntent.FLAG_UPDATE_CURRENT |
+                                    PendingIntent.FLAG_IMMUTABLE
                     );
-                    startActivity(intent1);
-                    return;
-                }
+
+            AlarmManager alarmManager =
+                    (AlarmManager)
+                            getSystemService(ALARM_SERVICE);
+
+            if (alarmManager != null) {
+
+                alarmManager.set(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.getTimeInMillis(),
+                        pendingIntent
+                );
             }
 
-            // ✅ Esta línea faltaba — sin ella la alarma nunca se disparaba
-            alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP,
-                    calendar.getTimeInMillis(),
-                    pendingIntent
-            );
-
         } catch (Exception e) {
+
             e.printStackTrace();
         }
     }

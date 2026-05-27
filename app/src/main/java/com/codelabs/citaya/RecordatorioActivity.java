@@ -48,11 +48,11 @@ public class RecordatorioActivity extends BroadcastReceiver {
 
         String mensaje =
                 "⏰ Tu cita inicia en 1 hora\n" +
+                        "📅 Día: " + fecha + "\n" +
+                        "🕒 Hora: " + hora + "\n" +
+                        "📍 Lugar: " + lugar + "\n" +
                         "👨‍⚕️ " + doctor + "\n" +
-                        "🩺 " + especialidad + "\n" +
-                        "📅 " + fecha + "\n" +
-                        "🕒 " + hora + "\n" +
-                        "📍 " + lugar;
+                        "🩺 Especialidad: " + especialidad;
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context, channelId)
