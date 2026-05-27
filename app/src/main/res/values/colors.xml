@@ -6,4 +6,7 @@
     <color name="cardGray">#F1F3F6</color>
     <color name="textPrimary">#1A1A1A</color>
     <color name="textSecondary">#6B6B6B</color>
+    <color name="ic_logo_background">#009688</color>
+    <color name="teal_700">#009688</color>
+
 </resources>
