@@ -1,7 +1,6 @@
 package com.codelabs.citaya;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.EditText;
@@ -12,11 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 
-import java.util.HashSet;
-import java.util.Set;
+import com.codelabs.citaya.database.Usuario;
+import com.codelabs.citaya.database.UsuarioDAO;
+
 
 public class RegistroActivity extends AppCompatActivity {
 
+    private UsuarioDAO usuarioDAO;
     private EditText etNombre, etDni, etTelefono, etCorreo, etPassword, etConfirmPassword;
     private RadioGroup rgSexo;
 
@@ -24,6 +25,8 @@ public class RegistroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+
+        usuarioDAO = new UsuarioDAO(this);
 
         etNombre = findViewById(R.id.etNombre);
         etDni = findViewById(R.id.etDni);
@@ -59,29 +62,32 @@ public class RegistroActivity extends AppCompatActivity {
                     return;
                 }
 
-                SharedPreferences usuariosPrefs = getSharedPreferences(LoginActivity.PREF_USUARIOS, MODE_PRIVATE);
-                String key = LoginActivity.claveUsuario(correo);
-
-                if (usuariosPrefs.getBoolean(key + "_existe", false)) {
+                if (usuarioDAO.existeCorreo(correo)) {
                     etCorreo.setError("Este correo ya está registrado");
                     etCorreo.requestFocus();
                     return;
                 }
 
-                Set<String> cuentas = usuariosPrefs.getStringSet("cuentas", new HashSet<>());
-                Set<String> nuevasCuentas = new HashSet<>(cuentas);
-                nuevasCuentas.add(correo);
+                Usuario usuario = new Usuario(
+                        nombre,
+                        dni,
+                        telefono,
+                        correo,
+                        password,
+                        sexo
+                );
 
-                usuariosPrefs.edit()
-                        .putStringSet("cuentas", nuevasCuentas)
-                        .putBoolean(key + "_existe", true)
-                        .putString(key + "_nombre", nombre)
-                        .putString(key + "_dni", dni)
-                        .putString(key + "_telefono", telefono)
-                        .putString(key + "_correo", correo)
-                        .putString(key + "_password", password)
-                        .putString(key + "_sexo", sexo)
-                        .apply();
+                boolean registrado = usuarioDAO.registrarUsuario(usuario);
+
+                if (!registrado) {
+                    Toast.makeText(this,
+                            "No se pudo registrar usuario",
+                            Toast.LENGTH_SHORT).show();
+
+                    return;
+                }
+
+                String key = LoginActivity.claveUsuario(correo);
 
                 getSharedPreferences(LoginActivity.PREF_SESION, MODE_PRIVATE)
                         .edit()

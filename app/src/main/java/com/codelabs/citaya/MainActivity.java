@@ -13,6 +13,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.codelabs.citaya.database.Usuario;
+import com.codelabs.citaya.database.UsuarioDAO;
+
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -45,12 +48,16 @@ public class MainActivity extends AppCompatActivity {
         TextView txtName = findViewById(R.id.txtName);
 
         String correoActual = obtenerCorreoActual(this);
-        String key = LoginActivity.claveUsuario(correoActual);
 
-        SharedPreferences usuariosPrefs = getSharedPreferences(LoginActivity.PREF_USUARIOS, MODE_PRIVATE);
-        String nombre = usuariosPrefs.getString(key + "_nombre", "Nombre del Paciente");
+        UsuarioDAO usuarioDAO = new UsuarioDAO(this);
 
-        txtName.setText(nombre);
+        Usuario usuario = usuarioDAO.buscarPorCorreo(correoActual);
+
+        if (usuario != null) {
+            txtName.setText(usuario.getNombre());
+        } else {
+            txtName.setText("Nombre del Paciente");
+        }
 
         txtBadge = findViewById(R.id.txtBadge);
         bottomNav = findViewById(R.id.bottomNav);

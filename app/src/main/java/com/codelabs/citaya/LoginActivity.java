@@ -4,7 +4,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,13 +12,14 @@ import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.codelabs.citaya.database.Usuario;
+import com.codelabs.citaya.database.UsuarioDAO;
 
-import java.util.HashSet;
-import java.util.Set;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private UsuarioDAO usuarioDAO;
     EditText etCorreo, etPassword;
     Button btnLogin;
     MaterialButton btnCrearCuenta;
@@ -32,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        usuarioDAO = new UsuarioDAO(this);
 
         etCorreo = findViewById(R.id.etCorreo);
         etPassword = findViewById(R.id.etPassword);
@@ -96,15 +98,13 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        SharedPreferences usuariosPrefs = getSharedPreferences(PREF_USUARIOS, MODE_PRIVATE);
-        String key = claveUsuario(correo);
+        Usuario usuario = usuarioDAO.login(correo, pass);
 
-        boolean existe = usuariosPrefs.getBoolean(key + "_existe", false);
-        String passwordGuardada = usuariosPrefs.getString(key + "_password", "");
+        if (usuario != null) {
 
-        if (existe && pass.equals(passwordGuardada)) {
+            String nombreGuardado = usuario.getNombre();
 
-            String nombreGuardado = usuariosPrefs.getString(key + "_nombre", "Nombre del Paciente");
+            String key = claveUsuario(correo);
 
             getSharedPreferences(PREF_SESION, MODE_PRIVATE)
                     .edit()
