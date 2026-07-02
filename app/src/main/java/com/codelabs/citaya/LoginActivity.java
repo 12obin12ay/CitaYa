@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         // EFECTO HOVER (crear cuenta)
         btnCrearCuenta.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                btnCrearCuenta.setBackgroundColor(Color.parseColor("#E3F2FD"));
+                btnCrearCuenta.setBackgroundColor(Color.parseColor("#E3F1FD"));
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 btnCrearCuenta.setBackgroundColor(Color.WHITE);
             }
