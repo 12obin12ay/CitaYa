@@ -2,6 +2,13 @@ package com.codelabs.citaya;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import com.codelabs.citaya.database.Usuario;
+import com.codelabs.citaya.database.UsuarioDAO;
+import com.codelabs.citaya.database.MedicoDAO;
+import com.codelabs.citaya.database.ReservaDAO;
+import com.codelabs.citaya.database.Reserva;
+import com.codelabs.citaya.database.Horario;
+
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.NotificationChannel;
@@ -54,6 +61,10 @@ public class ReservaActivity extends AppCompatActivity {
     private String horaAnterior = "";
     private String estadoOriginal = "PENDIENTE";
 
+    private UsuarioDAO usuarioDAO;
+    private MedicoDAO medicoDAO;
+    private ReservaDAO reservaDAO;
+
     private HashMap<String, Doctor[]> doctoresPorEspecialidad = new HashMap<>();
 
     static class Doctor {
@@ -74,6 +85,10 @@ public class ReservaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserva);
+
+        usuarioDAO = new UsuarioDAO(this);
+        medicoDAO = new MedicoDAO(this);
+        reservaDAO = new ReservaDAO(this);
 
         inicializarDoctores();
         vincularVistas();
@@ -428,6 +443,7 @@ public class ReservaActivity extends AppCompatActivity {
     }
 
     private void confirmarCita() {
+
         if (doctorSeleccionado.isEmpty()) {
             Toast.makeText(this, "Selecciona un doctor", Toast.LENGTH_SHORT).show();
             return;
@@ -446,107 +462,131 @@ public class ReservaActivity extends AppCompatActivity {
         String fecha = etFecha.getText().toString();
         String ubicacion = generarConsultorio(especialidadSeleccionada);
         String horaFormateada = convertirHoraAMPM(horaSeleccionada);
-        String estadoFinal = modoReprogramar ? estadoOriginal : "PENDIENTE";
 
-        String cita = doctorSeleccionado + "|" +
-                especialidadSeleccionada + "|" +
-                fecha + "|" +
-                horaFormateada + "|" +
-                ubicacion + "|" + estadoFinal;
+        // Usuario logueado
+        String correo = MainActivity.obtenerCorreoActual(this);
 
-        SharedPreferences prefs = prefsCitasUsuario();
+        Usuario usuario = usuarioDAO.buscarPorCorreo(correo);
 
-        Set<String> citas = prefs.getStringSet("lista", new HashSet<>());
-        Set<String> nuevaLista = new HashSet<>(citas);
-
-        Set<String> ocupados = prefs.getStringSet("ocupados", new HashSet<>());
-        Set<String> copiaOcupados = new HashSet<>(ocupados);
-
-        if (modoReprogramar) {
-            nuevaLista.remove(citaOriginal);
-            liberarHorario(fechaAnterior, horaAnterior, copiaOcupados);
-        }
-
-        String clave = fecha + "_" + horaSeleccionada;
-
-        if (copiaOcupados.contains(clave)) {
-            Snackbar.make(findViewById(android.R.id.content),
-                    "Este horario ya está ocupado",
-                    Snackbar.LENGTH_SHORT).show();
+        if (usuario == null) {
+            Toast.makeText(this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (!modoReprogramar && contarCitasActivas(nuevaLista) >= 3) {
-            Snackbar.make(findViewById(android.R.id.content),
+        int usuarioId = usuario.getId();
+
+        // Médico seleccionado
+        int medicoId = medicoDAO.obtenerIdPorNombre(doctorSeleccionado);
+
+        // Máximo 3 reservas activas
+        int reservasActivas = reservaDAO.contarReservasActivas(usuarioId);
+
+        if (reservasActivas >= 3) {
+            Snackbar.make(
+                    findViewById(android.R.id.content),
                     "Máximo 3 citas activas permitidas",
-                    Snackbar.LENGTH_SHORT).show();
+                    Snackbar.LENGTH_SHORT
+            ).show();
             return;
         }
 
-        nuevaLista.add(cita);
-        copiaOcupados.add(clave);
+        // Verificar horario ocupado
+        boolean ocupado = reservaDAO.horarioOcupado(
+                medicoId,
+                fecha,
+                horaSeleccionada
+        );
 
-        prefs.edit()
-                .putStringSet("lista", nuevaLista)
-                .putStringSet("ocupados", copiaOcupados)
-                .apply();
-
-        if (modoReprogramar) {
-            NotificacionesActivity.guardarNotificacion(
-                    this,
-                    "Cita reprogramada",
-                    "Tu cita con " + doctorSeleccionado + " fue reprogramada para el " + fecha + " a las " + horaFormateada,
-                    "reprogramada"
-            );
-
-            Snackbar.make(findViewById(android.R.id.content),
-                    "Cita reprogramada",
-                    Snackbar.LENGTH_SHORT).show();
-        } else {
-            boolean primeraReserva = !existeNotificacionTipo("clinica");
-
-            NotificacionesActivity.guardarNotificacion(
-                    this,
-                    "Recordatorio de cita",
-                    "Tu cita con " + doctorSeleccionado + " es el " + fecha + " a las " + horaFormateada,
-                    "recordatorio"
-            );
-
-            if (primeraReserva) {
-                NotificacionesActivity.guardarNotificacion(
-                        this,
-                        "Mensaje de la clínica",
-                        "Recuerda llegar 15 minutos antes de tu cita",
-                        "clinica"
-                );
-
-                NotificacionesActivity.guardarNotificacion(
-                        this,
-                        "Cita confirmada",
-                        "Tu cita con " + doctorSeleccionado + " ha sido confirmada para el " + fecha + " a las " + horaFormateada,
-                        "cita"
-                );
-
-                NotificacionesActivity.guardarNotificacion(
-                        this,
-                        "Próxima revisión",
-                        "Después de tu atención podrás agendar tu próxima revisión médica",
-                        "revision"
-                );
-            }
-
-            mostrarNotificacionInstantanea(
-                    doctorSeleccionado,
-                    especialidadSeleccionada,
-                    fecha,
-                    horaFormateada,
-                    ubicacion
-            );
-
-            Snackbar.make(findViewById(android.R.id.content),
-                    "Cita Registrada",
-                    Snackbar.LENGTH_SHORT).show();
+        if (ocupado) {
+            Snackbar.make(
+                    findViewById(android.R.id.content),
+                    "Este horario ya está ocupado",
+                    Snackbar.LENGTH_SHORT
+            ).show();
+            return;
         }
+
+        // Crear objeto horario
+        Horario horario = new Horario(
+                medicoId,
+                fecha,
+                horaSeleccionada,
+                "OCUPADO"
+        );
+
+        long horarioId = reservaDAO.crearHorario(horario);
+
+        if (horarioId == -1) {
+            Toast.makeText(this, "Error al crear horario", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Crear objeto reserva
+        Reserva reserva = new Reserva(
+                usuarioId,
+                (int) horarioId,
+                "PENDIENTE",
+                fecha
+        );
+
+        boolean reservaCreada = reservaDAO.crearReserva(reserva);
+
+        if (!reservaCreada) {
+            Toast.makeText(this, "Error al registrar reserva", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Notificaciones
+        boolean primeraReserva = !existeNotificacionTipo("clinica");
+
+        NotificacionesActivity.guardarNotificacion(
+                this,
+                "Recordatorio de cita",
+                "Tu cita con " + doctorSeleccionado +
+                        " es el " + fecha +
+                        " a las " + horaFormateada,
+                "recordatorio"
+        );
+
+        if (primeraReserva) {
+
+            NotificacionesActivity.guardarNotificacion(
+                    this,
+                    "Mensaje de la clínica",
+                    "Recuerda llegar 15 minutos antes de tu cita",
+                    "clinica"
+            );
+
+            NotificacionesActivity.guardarNotificacion(
+                    this,
+                    "Cita confirmada",
+                    "Tu cita con " + doctorSeleccionado +
+                            " ha sido confirmada para el " + fecha +
+                            " a las " + horaFormateada,
+                    "cita"
+            );
+
+            NotificacionesActivity.guardarNotificacion(
+                    this,
+                    "Próxima revisión",
+                    "Después de tu atención podrás agendar tu próxima revisión médica",
+                    "revision"
+            );
+        }
+
+        mostrarNotificacionInstantanea(
+                doctorSeleccionado,
+                especialidadSeleccionada,
+                fecha,
+                horaFormateada,
+                ubicacion
+        );
+
+        Snackbar.make(
+                findViewById(android.R.id.content),
+                "Cita Registrada",
+                Snackbar.LENGTH_SHORT
+        ).show();
 
         programarRecordatorio(
                 doctorSeleccionado,
@@ -557,7 +597,11 @@ public class ReservaActivity extends AppCompatActivity {
         );
 
         Intent intent = new Intent(this, CitasActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(
+                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_SINGLE_TOP
+        );
+
         startActivity(intent);
         finish();
     }

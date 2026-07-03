@@ -83,8 +83,6 @@ public class UsuarioDAO {
             );
         }
 
-        cursor.close();
-        db.close();
 
         return usuario;
     }
