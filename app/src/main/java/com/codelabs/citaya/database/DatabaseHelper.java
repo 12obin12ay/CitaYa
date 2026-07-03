@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "citaya.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     // TABLAS
 
@@ -75,6 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "fecha TEXT NOT NULL," +
                     "hora TEXT NOT NULL," +
                     "estado TEXT NOT NULL," +
+                    "ubicacion TEXT NOT NULL," +
                     "UNIQUE(medico_id, fecha, hora)," +
                     "FOREIGN KEY(medico_id) REFERENCES medicos(id)" +
                     ");";

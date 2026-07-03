@@ -7,12 +7,19 @@ public class Horario {
     private String fecha;
     private String hora;
     private String estado;
+    private String ubicacion;
 
-    public Horario(int medicoId, String fecha, String hora, String estado) {
+    public Horario(int medicoId,
+                   String fecha,
+                   String hora,
+                   String estado,
+                   String ubicacion) {
+
         this.medicoId = medicoId;
         this.fecha = fecha;
         this.hora = hora;
         this.estado = estado;
+        this.ubicacion = ubicacion;
     }
 
     //CONSTRUCTOR PARA LEER DE LA BD
@@ -48,5 +55,9 @@ public class Horario {
 
     public String getEstado() {
         return estado;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
     }
 }

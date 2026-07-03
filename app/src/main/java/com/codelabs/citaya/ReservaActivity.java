@@ -56,7 +56,7 @@ public class ReservaActivity extends AppCompatActivity {
     private String especialidadSeleccionada = "";
 
     private boolean modoReprogramar = false;
-    private String citaOriginal = "";
+    private int reservaIdOriginal = -1;
     private String fechaAnterior = "";
     private String horaAnterior = "";
     private String estadoOriginal = "PENDIENTE";
@@ -150,12 +150,11 @@ public class ReservaActivity extends AppCompatActivity {
 
     private void configurarModoReprogramar() {
         modoReprogramar = "reprogramar".equals(getIntent().getStringExtra("modo"));
-        citaOriginal = getIntent().getStringExtra("citaOriginal");
+        reservaIdOriginal = getIntent().getIntExtra("reservaId", -1);
         fechaAnterior = getIntent().getStringExtra("fecha");
         horaAnterior = getIntent().getStringExtra("hora");
         estadoOriginal = getIntent().getStringExtra("estado");
 
-        if (citaOriginal == null) citaOriginal = "";
         if (fechaAnterior == null) fechaAnterior = "";
         if (horaAnterior == null) horaAnterior = "";
         if (estadoOriginal == null || estadoOriginal.isEmpty()) estadoOriginal = "PENDIENTE";
@@ -337,11 +336,6 @@ public class ReservaActivity extends AppCompatActivity {
         }
     }
 
-    private SharedPreferences prefsCitasUsuario() {
-        String correo = MainActivity.obtenerCorreoActual(this);
-        return getSharedPreferences(LoginActivity.prefsCitas(correo), MODE_PRIVATE);
-    }
-
     private boolean horaYaPaso(String fecha, String horaTexto) {
         try {
             String horaLimpia = horaTexto.trim();
@@ -375,23 +369,32 @@ public class ReservaActivity extends AppCompatActivity {
                     etFecha.setText(fechaSeleccionada);
                     layoutHorarios.setVisibility(View.VISIBLE);
 
-                    SharedPreferences prefs = prefsCitasUsuario();
-                    Set<String> ocupados = prefs.getStringSet("ocupados", new HashSet<>());
+                    int medicoId = medicoDAO.obtenerIdPorNombre(doctorSeleccionado);
 
                     LinearLayout[] horas = {hora1, hora2, hora3, hora4, hora5, hora6, hora7, hora8, hora9};
 
                     for (LinearLayout h : horas) {
+
                         String hora = obtenerHora(h);
-                        String clave = fechaSeleccionada + "_" + hora;
+
+                        boolean ocupado = reservaDAO.horarioOcupadoActivo(
+                                medicoId,
+                                fechaSeleccionada,
+                                hora
+                        );
 
                         boolean esHorarioAnterior = modoReprogramar
                                 && fechaSeleccionada.equals(fechaAnterior)
                                 && convertirHoraAMPM(hora).equals(horaAnterior);
 
-                        if (!esHorarioAnterior && (ocupados.contains(clave) || horaYaPaso(fechaSeleccionada, hora))) {
+                        if (!esHorarioAnterior &&
+                                (ocupado || horaYaPaso(fechaSeleccionada, hora))) {
+
                             h.setEnabled(false);
                             h.setAlpha(0.3f);
+
                         } else {
+
                             h.setEnabled(true);
                             h.setAlpha(1f);
                         }
@@ -511,7 +514,8 @@ public class ReservaActivity extends AppCompatActivity {
                 medicoId,
                 fecha,
                 horaSeleccionada,
-                "OCUPADO"
+                "OCUPADO",
+                ubicacion
         );
 
         long horarioId = reservaDAO.crearHorario(horario);

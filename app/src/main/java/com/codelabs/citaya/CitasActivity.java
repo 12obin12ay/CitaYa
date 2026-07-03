@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.codelabs.citaya.database.ReservaDAO;
+import com.codelabs.citaya.database.Usuario;
+import com.codelabs.citaya.database.UsuarioDAO;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -21,10 +25,17 @@ public class CitasActivity extends AppCompatActivity {
 
     LinearLayout contenedorProximas, contenedorAnteriores;
 
+    private UsuarioDAO usuarioDAO;
+    private ReservaDAO reservaDAO;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_citas);
+
+        usuarioDAO = new UsuarioDAO(this);
+        reservaDAO = new ReservaDAO(this);
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
@@ -68,64 +79,70 @@ public class CitasActivity extends AppCompatActivity {
         return getSharedPreferences(LoginActivity.prefsCitas(correo), MODE_PRIVATE);
     }
     private void cargarCitas() {
-        SharedPreferences prefs = prefsCitasUsuario();
-        Set<String> citas = prefs.getStringSet("lista", new HashSet<>());
+
+        String correo = MainActivity.obtenerCorreoActual(this);
+
+        Usuario usuario = usuarioDAO.buscarPorCorreo(correo);
+
+        if (usuario == null) return;
+
+        int usuarioId = usuario.getId();
+
+        android.database.Cursor cursor =
+                reservaDAO.obtenerReservasPorUsuario(usuarioId);
 
         contenedorProximas.removeAllViews();
         contenedorAnteriores.removeAllViews();
 
-        if (citas == null || citas.isEmpty()) return;
+        if (cursor == null) return;
 
-        Set<String> citasActualizadas = new HashSet<>();
-        java.util.ArrayList<String> proximas = new java.util.ArrayList<>();
-        java.util.ArrayList<String> anteriores = new java.util.ArrayList<>();
+        while (cursor.moveToNext()) {
 
-        for (String c : citas) {
-            String[] datos = c.split("\\|");
-            if (datos.length < 6) continue;
+            int reservaId = cursor.getInt(
+                    cursor.getColumnIndexOrThrow("reserva_id")
+            );
 
-            String estado = datos[5];
+            int horarioId = cursor.getInt(
+                    cursor.getColumnIndexOrThrow("horario_id")
+            );
 
-            if (("PENDIENTE".equals(estado) || "CONFIRMADA".equals(estado))
-                    && citaYaPaso(datos[2], datos[3])) {
-                estado = "COMPLETADA";
-                c = construirCita(datos[0], datos[1], datos[2], datos[3], datos[4], estado);
-            }
+            String doctor = cursor.getString(
+                    cursor.getColumnIndexOrThrow("doctor")
+            );
 
-            citasActualizadas.add(c);
+            String especialidad = cursor.getString(
+                    cursor.getColumnIndexOrThrow("especialidad")
+            );
 
-            if ("PENDIENTE".equals(estado) || "CONFIRMADA".equals(estado)) {
-                proximas.add(c);
-            } else {
-                anteriores.add(c);
-            }
+            String fecha = cursor.getString(
+                    cursor.getColumnIndexOrThrow("fecha")
+            );
+
+            String hora = cursor.getString(
+                    cursor.getColumnIndexOrThrow("hora")
+            );
+
+            String ubicacion = cursor.getString(
+                    cursor.getColumnIndexOrThrow("ubicacion")
+            );
+
+            String estado = cursor.getString(
+                    cursor.getColumnIndexOrThrow("estado")
+            );
+
+            agregarCard(
+                    reservaId,
+                    horarioId,
+                    doctor,
+                    especialidad,
+                    fecha,
+                    hora,
+                    ubicacion,
+                    estado
+            );
         }
 
-        proximas.sort((a, b) -> {
-            String[] da = a.split("\\|");
-            String[] db = b.split("\\|");
-            return Long.compare(obtenerTiempoCita(da[2], da[3]), obtenerTiempoCita(db[2], db[3]));
-        });
-
-        anteriores.sort((a, b) -> {
-            String[] da = a.split("\\|");
-            String[] db = b.split("\\|");
-            return Long.compare(obtenerTiempoCita(db[2], db[3]), obtenerTiempoCita(da[2], da[3]));
-        });
-
-        for (String c : proximas) {
-            String[] datos = c.split("\\|");
-            if (datos.length < 6) continue;
-            agregarCard(c, datos[0], datos[1], datos[2], datos[3], datos[4], datos[5]);
-        }
-
-        for (String c : anteriores) {
-            String[] datos = c.split("\\|");
-            if (datos.length < 6) continue;
-            agregarCard(c, datos[0], datos[1], datos[2], datos[3], datos[4], datos[5]);
-        }
-
-        prefs.edit().putStringSet("lista", citasActualizadas).apply();
+        cursor.close();
     }
     private long obtenerTiempoCita(String fecha, String hora) {
         try {
@@ -141,8 +158,16 @@ public class CitasActivity extends AppCompatActivity {
         }
     }
 
-    private void agregarCard(String citaOriginal, String doctor, String especialidad,
-                             String fecha, String hora, String ubicacion, String estado) {
+    private void agregarCard(
+            int reservaId,
+            int horarioId,
+            String doctor,
+            String especialidad,
+            String fecha,
+            String hora,
+            String ubicacion,
+            String estado
+    ) {
 
         View card = getLayoutInflater().inflate(
                 R.layout.activity_card_citas,
@@ -174,17 +199,17 @@ public class CitasActivity extends AppCompatActivity {
             btnConfirmarCita.setVisibility(View.VISIBLE);
 
             btnConfirmarCita.setOnClickListener(v -> {
-                cambiarEstado(citaOriginal, doctor, especialidad, fecha, hora, ubicacion, "CONFIRMADA");
+                cambiarEstado(reservaId, "CONFIRMADA");
                 cargarCitas();
             });
 
             btnReprogramarCita.setOnClickListener(v -> abrirReprogramacion(
-                    citaOriginal, doctor, especialidad, fecha, hora, ubicacion, estado
+                    reservaId, doctor, especialidad, fecha, hora, ubicacion, estado
             ));
 
             btnCancelarCita.setOnClickListener(v -> {
-                cambiarEstado(citaOriginal, doctor, especialidad, fecha, hora, ubicacion, "CANCELADA");
-                liberarHorario(fecha, hora);
+                cambiarEstado(reservaId, "CANCELADA");
+                reservaDAO.liberarHorario(horarioId);
 
                 NotificacionesActivity.guardarNotificacion(
                         this,
@@ -208,12 +233,12 @@ public class CitasActivity extends AppCompatActivity {
             btnConfirmarCita.setVisibility(View.GONE);
 
             btnReprogramarCita.setOnClickListener(v -> abrirReprogramacion(
-                    citaOriginal, doctor, especialidad, fecha, hora, ubicacion, estado
+                    reservaId, doctor, especialidad, fecha, hora, ubicacion, estado
             ));
 
             btnCancelarCita.setOnClickListener(v -> {
-                cambiarEstado(citaOriginal, doctor, especialidad, fecha, hora, ubicacion, "CANCELADA");
-                liberarHorario(fecha, hora);
+                cambiarEstado(reservaId, "CANCELADA");
+                reservaDAO.liberarHorario(horarioId);
 
                 NotificacionesActivity.guardarNotificacion(
                         this,
@@ -253,12 +278,19 @@ public class CitasActivity extends AppCompatActivity {
         }
     }
 
-    private void abrirReprogramacion(String citaOriginal, String doctor, String especialidad,
-                                     String fecha, String hora, String ubicacion, String estado) {
+    private void abrirReprogramacion(
+            int reservaId,
+            String doctor,
+            String especialidad,
+            String fecha,
+            String hora,
+            String ubicacion,
+            String estado
+    ) {
 
         Intent intent = new Intent(this, ReservaActivity.class);
         intent.putExtra("modo", "reprogramar");
-        intent.putExtra("citaOriginal", citaOriginal);
+        intent.putExtra("reservaId", reservaId);
         intent.putExtra("doctor", doctor);
         intent.putExtra("especialidad", especialidad);
         intent.putExtra("fecha", fecha);
@@ -277,50 +309,19 @@ public class CitasActivity extends AppCompatActivity {
         texto.setTextColor(Color.parseColor(color));
     }
 
-    private void cambiarEstado(String citaOriginal, String doctor, String especialidad,
-                               String fecha, String hora, String ubicacion, String nuevoEstado) {
+    private void cambiarEstado(int reservaId, String nuevoEstado) {
 
-        SharedPreferences prefs = prefsCitasUsuario();
-        Set<String> citas = prefs.getStringSet("lista", new HashSet<>());
-        Set<String> nuevas = new HashSet<>(citas);
+        boolean actualizado =
+                reservaDAO.actualizarEstadoReserva(reservaId, nuevoEstado);
 
-        nuevas.remove(citaOriginal);
-        nuevas.add(construirCita(doctor, especialidad, fecha, hora, ubicacion, nuevoEstado));
+        if (actualizado && "CONFIRMADA".equals(nuevoEstado)) {
 
-        prefs.edit().putStringSet("lista", nuevas).apply();
-
-        if ("CONFIRMADA".equals(nuevoEstado)) {
             NotificacionesActivity.guardarNotificacion(
                     this,
                     "Cita confirmada",
-                    "Tu cita con " + doctor + " del " + fecha + " a las " + hora + " fue confirmada correctamente.",
+                    "Tu cita fue confirmada correctamente.",
                     "cita"
             );
-        }
-    }
-
-    private void liberarHorario(String fecha, String horaAMPM) {
-        SharedPreferences prefs = prefsCitasUsuario();
-
-        Set<String> ocupados = prefs.getStringSet("ocupados", new HashSet<>());
-        Set<String> copia = new HashSet<>(ocupados);
-
-        String hora24 = convertirHora24(horaAMPM);
-        String clave = fecha + "_" + hora24;
-
-        copia.remove(clave);
-
-        prefs.edit().putStringSet("ocupados", copia).apply();
-    }
-
-    private String convertirHora24(String horaAMPM) {
-        try {
-            SimpleDateFormat formato12 = new SimpleDateFormat("hh:mm a", Locale.US);
-            SimpleDateFormat formato24 = new SimpleDateFormat("HH:mm", Locale.US);
-            Date fecha = formato12.parse(horaAMPM);
-            return formato24.format(fecha);
-        } catch (Exception e) {
-            return horaAMPM;
         }
     }
 
