@@ -24,10 +24,8 @@ import java.util.Set;
 public class CitasActivity extends AppCompatActivity {
 
     LinearLayout contenedorProximas, contenedorAnteriores;
-
     private UsuarioDAO usuarioDAO;
     private ReservaDAO reservaDAO;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,18 +76,14 @@ public class CitasActivity extends AppCompatActivity {
         String correo = MainActivity.obtenerCorreoActual(this);
         return getSharedPreferences(LoginActivity.prefsCitas(correo), MODE_PRIVATE);
     }
+
     private void cargarCitas() {
-
         String correo = MainActivity.obtenerCorreoActual(this);
-
         Usuario usuario = usuarioDAO.buscarPorCorreo(correo);
-
         if (usuario == null) return;
 
         int usuarioId = usuario.getId();
-
-        android.database.Cursor cursor =
-                reservaDAO.obtenerReservasPorUsuario(usuarioId);
+        android.database.Cursor cursor = reservaDAO.obtenerReservasPorUsuario(usuarioId);
 
         contenedorProximas.removeAllViews();
         contenedorAnteriores.removeAllViews();
@@ -97,83 +91,22 @@ public class CitasActivity extends AppCompatActivity {
         if (cursor == null) return;
 
         while (cursor.moveToNext()) {
+            int reservaId = cursor.getInt(cursor.getColumnIndexOrThrow("reserva_id"));
+            int horarioId = cursor.getInt(cursor.getColumnIndexOrThrow("horario_id"));
+            String doctor = cursor.getString(cursor.getColumnIndexOrThrow("doctor"));
+            String especialidad = cursor.getString(cursor.getColumnIndexOrThrow("especialidad"));
+            String fecha = cursor.getString(cursor.getColumnIndexOrThrow("fecha"));
+            String hora = cursor.getString(cursor.getColumnIndexOrThrow("hora"));
+            String ubicacion = cursor.getString(cursor.getColumnIndexOrThrow("ubicacion"));
+            String estado = cursor.getString(cursor.getColumnIndexOrThrow("estado"));
 
-            int reservaId = cursor.getInt(
-                    cursor.getColumnIndexOrThrow("reserva_id")
-            );
-
-            int horarioId = cursor.getInt(
-                    cursor.getColumnIndexOrThrow("horario_id")
-            );
-
-            String doctor = cursor.getString(
-                    cursor.getColumnIndexOrThrow("doctor")
-            );
-
-            String especialidad = cursor.getString(
-                    cursor.getColumnIndexOrThrow("especialidad")
-            );
-
-            String fecha = cursor.getString(
-                    cursor.getColumnIndexOrThrow("fecha")
-            );
-
-            String hora = cursor.getString(
-                    cursor.getColumnIndexOrThrow("hora")
-            );
-
-            String ubicacion = cursor.getString(
-                    cursor.getColumnIndexOrThrow("ubicacion")
-            );
-
-            String estado = cursor.getString(
-                    cursor.getColumnIndexOrThrow("estado")
-            );
-
-            agregarCard(
-                    reservaId,
-                    horarioId,
-                    doctor,
-                    especialidad,
-                    fecha,
-                    hora,
-                    ubicacion,
-                    estado
-            );
+            agregarCard(reservaId, horarioId, doctor, especialidad, fecha, hora, ubicacion, estado);
         }
-
         cursor.close();
     }
-    private long obtenerTiempoCita(String fecha, String hora) {
-        try {
-            java.text.SimpleDateFormat formato =
-                    new java.text.SimpleDateFormat("d/M/yyyy hh:mm a", java.util.Locale.US);
 
-            java.util.Date fechaCita = formato.parse(fecha + " " + hora);
-
-            return fechaCita != null ? fechaCita.getTime() : 0;
-
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
-    private void agregarCard(
-            int reservaId,
-            int horarioId,
-            String doctor,
-            String especialidad,
-            String fecha,
-            String hora,
-            String ubicacion,
-            String estado
-    ) {
-
-        View card = getLayoutInflater().inflate(
-                R.layout.activity_card_citas,
-                contenedorProximas,
-                false
-        );
+    private void agregarCard(int reservaId, int horarioId, String doctor, String especialidad, String fecha, String hora, String ubicacion, String estado) {
+        View card = getLayoutInflater().inflate(R.layout.activity_card_citas, contenedorProximas, false);
 
         ((TextView) card.findViewById(R.id.txtNombre)).setText(doctor);
         ((TextView) card.findViewById(R.id.txtEspecialidad)).setText(especialidad);
@@ -189,105 +122,59 @@ public class CitasActivity extends AppCompatActivity {
         LinearLayout btnReprogramarCita = card.findViewById(R.id.btnReprogramarCita);
         LinearLayout btnCancelarCita = card.findViewById(R.id.btnCancelarCita);
 
-        if ("PENDIENTE".equals(estado)) {
+        if ("PENDIENTE".equals(estado) || "CONFIRMADA".equals(estado)) {
+            String color = "PENDIENTE".equals(estado) ? "#EF6C00" : "#2E7D32";
+            int icon = "PENDIENTE".equals(estado) ? R.drawable.ic_help : R.drawable.ic_check;
+            int bg = "PENDIENTE".equals(estado) ? R.drawable.bg_pendiente : R.drawable.bg_confirmada;
+            String text = "PENDIENTE".equals(estado) ? "Pendiente" : "Confirmada";
 
-            configurarBadge(badgeEstado, iconEstado, txtEstado,
-                    "Pendiente", "#EF6C00", R.drawable.ic_help, R.drawable.bg_pendiente);
-
+            configurarBadge(badgeEstado, iconEstado, txtEstado, text, color, icon, bg);
             badgeEstado.setOnClickListener(v -> alternarOpciones(layoutOpciones));
 
-            btnConfirmarCita.setVisibility(View.VISIBLE);
+            if ("CONFIRMADA".equals(estado)) btnConfirmarCita.setVisibility(View.GONE);
 
             btnConfirmarCita.setOnClickListener(v -> {
                 cambiarEstado(reservaId, "CONFIRMADA");
                 cargarCitas();
             });
 
-            btnReprogramarCita.setOnClickListener(v -> abrirReprogramacion(
-                    reservaId, doctor, especialidad, fecha, hora, ubicacion, estado
-            ));
+            btnReprogramarCita.setOnClickListener(v -> abrirReprogramacion(reservaId, doctor, especialidad, fecha, hora, ubicacion, estado));
 
             btnCancelarCita.setOnClickListener(v -> {
+                // 1. Liberar en SQL
                 cambiarEstado(reservaId, "CANCELADA");
                 reservaDAO.liberarHorario(horarioId);
 
+                // 2. Limpiar SharedPreferences para evitar interferencias en ReservaActivity
+                SharedPreferences prefs = prefsCitasUsuario();
+                Set<String> ocupados = new HashSet<>(prefs.getStringSet("ocupados", new HashSet<>()));
+                ocupados.remove(fecha + "_" + hora); // Clave usada en el calendario
+                prefs.edit().putStringSet("ocupados", ocupados).apply();
+
                 NotificacionesActivity.guardarNotificacion(
-                        this,
-                        "Cita cancelada",
-                        "Tu cita con " + doctor + " del " + fecha + " a las " + hora + " fue cancelada correctamente.",
+                        this, "Cita cancelada",
+                        "Tu cita con " + doctor + " del " + fecha + " a las " + hora + " fue cancelada.",
                         "cancelada"
                 );
-
                 cargarCitas();
             });
 
             contenedorProximas.addView(card);
-
-        } else if ("CONFIRMADA".equals(estado)) {
-
-            configurarBadge(badgeEstado, iconEstado, txtEstado,
-                    "Confirmada", "#2E7D32", R.drawable.ic_check, R.drawable.bg_confirmada);
-
-            badgeEstado.setOnClickListener(v -> alternarOpciones(layoutOpciones));
-
-            btnConfirmarCita.setVisibility(View.GONE);
-
-            btnReprogramarCita.setOnClickListener(v -> abrirReprogramacion(
-                    reservaId, doctor, especialidad, fecha, hora, ubicacion, estado
-            ));
-
-            btnCancelarCita.setOnClickListener(v -> {
-                cambiarEstado(reservaId, "CANCELADA");
-                reservaDAO.liberarHorario(horarioId);
-
-                NotificacionesActivity.guardarNotificacion(
-                        this,
-                        "Cita cancelada",
-                        "Tu cita con " + doctor + " del " + fecha + " a las " + hora + " fue cancelada correctamente.",
-                        "cancelada"
-                );
-
-                cargarCitas();
-            });
-
-            contenedorProximas.addView(card);
-
-        } else if ("COMPLETADA".equals(estado)) {
-
-            configurarBadge(badgeEstado, iconEstado, txtEstado,
-                    "Completada", "#1976D2", R.drawable.ic_check, R.drawable.bg_completada);
-
-            layoutOpciones.setVisibility(View.GONE);
-            contenedorAnteriores.addView(card);
-
         } else {
-
-            configurarBadge(badgeEstado, iconEstado, txtEstado,
-                    "Cancelada", "#D32F2F", R.drawable.ic_cancel, R.drawable.bg_cancelada);
-
+            String color = "COMPLETADA".equals(estado) ? "#1976D2" : "#D32F2F";
+            int icon = "COMPLETADA".equals(estado) ? R.drawable.ic_check : R.drawable.ic_cancel;
+            int bg = "COMPLETADA".equals(estado) ? R.drawable.bg_completada : R.drawable.bg_cancelada;
+            configurarBadge(badgeEstado, iconEstado, txtEstado, estado, color, icon, bg);
             layoutOpciones.setVisibility(View.GONE);
             contenedorAnteriores.addView(card);
         }
     }
 
     private void alternarOpciones(LinearLayout layoutOpciones) {
-        if (layoutOpciones.getVisibility() == View.VISIBLE) {
-            layoutOpciones.setVisibility(View.GONE);
-        } else {
-            layoutOpciones.setVisibility(View.VISIBLE);
-        }
+        layoutOpciones.setVisibility(layoutOpciones.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
     }
 
-    private void abrirReprogramacion(
-            int reservaId,
-            String doctor,
-            String especialidad,
-            String fecha,
-            String hora,
-            String ubicacion,
-            String estado
-    ) {
-
+    private void abrirReprogramacion(int reservaId, String doctor, String especialidad, String fecha, String hora, String ubicacion, String estado) {
         Intent intent = new Intent(this, ReservaActivity.class);
         intent.putExtra("modo", "reprogramar");
         intent.putExtra("reservaId", reservaId);
@@ -300,8 +187,7 @@ public class CitasActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void configurarBadge(LinearLayout badge, ImageView icono, TextView texto,
-                                 String estado, String color, int iconRes, int bgRes) {
+    private void configurarBadge(LinearLayout badge, ImageView icono, TextView texto, String estado, String color, int iconRes, int bgRes) {
         badge.setBackgroundResource(bgRes);
         icono.setImageResource(iconRes);
         icono.setColorFilter(Color.parseColor(color));
@@ -310,46 +196,13 @@ public class CitasActivity extends AppCompatActivity {
     }
 
     private void cambiarEstado(int reservaId, String nuevoEstado) {
-
-        boolean actualizado =
-                reservaDAO.actualizarEstadoReserva(reservaId, nuevoEstado);
-
-        if (actualizado && "CONFIRMADA".equals(nuevoEstado)) {
-
-            NotificacionesActivity.guardarNotificacion(
-                    this,
-                    "Cita confirmada",
-                    "Tu cita fue confirmada correctamente.",
-                    "cita"
-            );
-        }
-    }
-
-    private String construirCita(String doctor, String especialidad, String fecha,
-                                 String hora, String ubicacion, String estado) {
-        return doctor + "|" + especialidad + "|" + fecha + "|" + hora + "|" + ubicacion + "|" + estado;
-    }
-
-    private boolean citaYaPaso(String fecha, String hora) {
-        try {
-            String fechaHora = fecha + " " + hora;
-
-            SimpleDateFormat formato = new SimpleDateFormat("d/M/yyyy hh:mm a", Locale.US);
-            Date fechaCita = formato.parse(fechaHora);
-            Date ahora = new Date();
-
-            return fechaCita != null && fechaCita.before(ahora);
-
-        } catch (Exception e) {
-            return false;
-        }
+        reservaDAO.actualizarEstadoReserva(reservaId, nuevoEstado);
     }
 
     private void activarTab(TextView activo, TextView inactivo) {
         activo.setBackgroundResource(R.drawable.bg_tab_selected);
-        activo.setTextColor(getResources().getColor(android.R.color.white));
-
+        activo.setTextColor(Color.WHITE);
         inactivo.setBackground(null);
-        inactivo.setTextColor(getResources().getColor(android.R.color.darker_gray));
+        inactivo.setTextColor(Color.DKGRAY);
     }
 }

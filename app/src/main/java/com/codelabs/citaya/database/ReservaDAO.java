@@ -13,115 +13,104 @@ public class ReservaDAO {
         dbHelper = new DatabaseHelper(context);
     }
 
-
-    // CREAR HORARIO
-
+    // 🔥 CORREGIDO: Maneja conflictos si el horario ya existe (re-reserva)
     public long crearHorario(Horario horario) {
-
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+        
+        // Primero verificamos si ya existe el registro para este médico, fecha y hora
+        Cursor cursor = db.rawQuery(
+                "SELECT id FROM horarios WHERE medico_id = ? AND fecha = ? AND hora = ?",
+                new String[]{String.valueOf(horario.getMedicoId()), horario.getFecha(), horario.getHora()}
+        );
 
-        ContentValues values = new ContentValues();
-
-        values.put("medico_id", horario.getMedicoId());
-        values.put("fecha", horario.getFecha());
-        values.put("hora", horario.getHora());
-        values.put("estado", horario.getEstado());
-        values.put("ubicacion", horario.getUbicacion());
-
-        long resultado = db.insert("horarios", null, values);
-
+        long id = -1;
+        if (cursor.moveToFirst()) {
+            // Si ya existe, simplemente lo recuperamos y actualizamos a OCUPADO
+            id = cursor.getLong(0);
+            ContentValues values = new ContentValues();
+            values.put("estado", "OCUPADO");
+            db.update("horarios", values, "id = ?", new String[]{String.valueOf(id)});
+        } else {
+            // Si no existe, lo insertamos normalmente
+            ContentValues values = new ContentValues();
+            values.put("medico_id", horario.getMedicoId());
+            values.put("fecha", horario.getFecha());
+            values.put("hora", horario.getHora());
+            values.put("estado", "OCUPADO");
+            values.put("ubicacion", horario.getUbicacion());
+            id = db.insert("horarios", null, values);
+        }
+        cursor.close();
         db.close();
-
-        return resultado;
+        return id;
     }
 
-
-    // CREAR RESERVA
-
+    // 🔥 CORREGIDO: Maneja conflictos si ya había una reserva para este horario (aunque fuera cancelada)
     public boolean crearReserva(Reserva reserva) {
-
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+        
+        // Verificamos si ya existe una reserva para este horario_id
+        Cursor cursor = db.rawQuery(
+                "SELECT id FROM reservas WHERE horario_id = ?",
+                new String[]{String.valueOf(reserva.getHorarioId())}
+        );
 
+        long resultado;
         ContentValues values = new ContentValues();
-
         values.put("usuario_id", reserva.getUsuarioId());
-        values.put("horario_id", reserva.getHorarioId());
         values.put("estado", reserva.getEstado());
         values.put("fecha_reserva", reserva.getFechaReserva());
 
-        long resultado = db.insert("reservas", null, values);
-
+        if (cursor.moveToFirst()) {
+            // Si ya existe (ej. una reserva cancelada anteriormente), actualizamos la existente
+            int idExistente = cursor.getInt(0);
+            resultado = db.update("reservas", values, "id = ?", new String[]{String.valueOf(idExistente)});
+        } else {
+            // Si es nueva, insertamos
+            values.put("horario_id", reserva.getHorarioId());
+            resultado = db.insert("reservas", null, values);
+        }
+        
+        cursor.close();
         db.close();
-
         return resultado != -1;
     }
 
-
-    // CONTAR RESERVAS ACTIVAS
-
     public int contarReservasActivas(int usuarioId) {
-
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-
         Cursor cursor = db.rawQuery(
                 "SELECT COUNT(*) FROM reservas " +
                         "WHERE usuario_id = ? " +
                         "AND (estado = 'PENDIENTE' OR estado = 'CONFIRMADA')",
                 new String[]{String.valueOf(usuarioId)}
         );
-
         int cantidad = 0;
-
         if (cursor.moveToFirst()) {
             cantidad = cursor.getInt(0);
         }
-
         cursor.close();
         db.close();
-
         return cantidad;
     }
 
-
-    // VERIFICAR SI HORARIO ESTA OCUPADO
-
     public boolean horarioOcupado(int medicoId, String fecha, String hora) {
-
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-
         Cursor cursor = db.rawQuery(
                 "SELECT id FROM horarios " +
-                        "WHERE medico_id = ? AND fecha = ? AND hora = ?",
-                new String[]{
-                        String.valueOf(medicoId),
-                        fecha,
-                        hora
-                }
+                        "WHERE medico_id = ? AND fecha = ? AND hora = ? AND estado = 'OCUPADO'",
+                new String[]{String.valueOf(medicoId), fecha, hora}
         );
-
         boolean ocupado = cursor.moveToFirst();
-
         cursor.close();
         db.close();
-
         return ocupado;
     }
 
-
     public Cursor obtenerReservasPorUsuario(int usuarioId) {
-
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-
         return db.rawQuery(
-                "SELECT " +
-                        "r.id as reserva_id, " +
-                        "h.id as horario_id, " +
-                        "m.nombre as doctor, " +
-                        "e.nombre as especialidad, " +
-                        "h.fecha, " +
-                        "h.hora, " +
-                        "h.ubicacion, " +
-                        "r.estado " +
+                "SELECT r.id as reserva_id, h.id as horario_id, m.nombre as doctor, " +
+                        "e.nombre as especialidad, h.fecha, h.hora, h.ubicacion, r.estado " +
                         "FROM reservas r " +
                         "INNER JOIN horarios h ON r.horario_id = h.id " +
                         "INNER JOIN medicos m ON h.medico_id = m.id " +
@@ -132,95 +121,32 @@ public class ReservaDAO {
         );
     }
 
-
     public boolean actualizarEstadoReserva(int reservaId, String nuevoEstado) {
-
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put("estado", nuevoEstado);
-
-        int filas = db.update(
-                "reservas",
-                values,
-                "id = ?",
-                new String[]{String.valueOf(reservaId)}
-        );
-
+        int filas = db.update("reservas", values, "id = ?", new String[]{String.valueOf(reservaId)});
         db.close();
-
-        return filas > 0;
-    }
-
-
-    public boolean actualizarEstadoHorario(int horarioId, String nuevoEstado) {
-
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put("estado", nuevoEstado);
-
-        int filas = db.update(
-                "horarios",
-                values,
-                "id = ?",
-                new String[]{String.valueOf(horarioId)}
-        );
-
-        db.close();
-
         return filas > 0;
     }
 
     public void liberarHorario(int horarioId) {
-
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put("estado", "DISPONIBLE");
-
-        db.update(
-                "horarios",
-                values,
-                "id = ?",
-                new String[]{String.valueOf(horarioId)}
-        );
-
+        db.update("horarios", values, "id = ?", new String[]{String.valueOf(horarioId)});
         db.close();
     }
 
-    public boolean actualizarReserva(int reservaId, int nuevoHorarioId, String nuevoEstado) {
-
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put("horario_id", nuevoHorarioId);
-        values.put("estado", nuevoEstado);
-
-        int filas = db.update(
-                "reservas",
-                values,
-                "id = ?",
-                new String[]{String.valueOf(reservaId)}
-        );
-
-        return filas > 0;
-    }
-
     public boolean horarioOcupadoActivo(int medicoId, String fecha, String hora) {
-
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-
         Cursor cursor = db.rawQuery(
                 "SELECT * FROM horarios WHERE medico_id = ? AND fecha = ? AND hora = ? AND estado = 'OCUPADO'",
                 new String[]{String.valueOf(medicoId), fecha, hora}
         );
-
         boolean ocupado = cursor.moveToFirst();
-
         cursor.close();
         db.close();
-
         return ocupado;
     }
 }
