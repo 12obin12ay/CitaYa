@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "568739925952",
+    "project_id": "citaya-19eb8",
+    "storage_bucket": "citaya-19eb8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568739925952:android:e1bbfb5077109a4c86c225",
+        "android_client_info": {
+          "package_name": "com.codelabs.citaya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "568739925952-fnlp5oio1mp9vfilta08t8bjc1mldh6d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codelabs.citaya",
+            "certificate_hash": "cbd627ba78fa79d5a473f68dfebd39c9177e47dc"
+          }
+        },
+        {
+          "client_id": "568739925952-4678cd8o8f8q1f67e9tojpmemuakfkma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_JioaUYv7CTXvgyOoLy8Xw9vCkEErdik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "568739925952-4678cd8o8f8q1f67e9tojpmemuakfkma.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
