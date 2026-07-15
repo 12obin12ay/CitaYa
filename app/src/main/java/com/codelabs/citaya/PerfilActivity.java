@@ -2,107 +2,125 @@ package com.codelabs.citaya;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.codelabs.citaya.database.Usuario;
 import com.codelabs.citaya.database.UsuarioDAO;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.button.MaterialButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class PerfilActivity extends AppCompatActivity {
+
+    private TextView txtNombreHeader, tvNombreValor, tvCorreoValor, tvTelefonoValor, tvDniValor;
+    private ImageView fotoPerfil;
+    private UsuarioDAO usuarioDAO;
+    private Usuario usuarioActual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
-        TextView txtNombreHeader = findViewById(R.id.txtNombreHeader);
-        TextView tvNombreValor = findViewById(R.id.tvNombreCompletoValor);
-        TextView tvCorreoValor = findViewById(R.id.tvCorreoValor);
-        TextView tvTelefonoValor = findViewById(R.id.tvTelefonoValor);
-        TextView tvDniValor = findViewById(R.id.tvDniValor);
-        ImageView fotoPerfil = findViewById(R.id.fotoPerfil);
-
-        String correoActual = MainActivity.obtenerCorreoActual(this);
-
-        UsuarioDAO usuarioDAO = new UsuarioDAO(this);
-
-        Usuario usuario = usuarioDAO.buscarPorCorreo(correoActual);
-
-        String nombre = "Nombre del Paciente";
-        String correo = correoActual;
-        String telefono = "Sin teléfono";
-        String dni = "Sin DNI";
-        String sexo = "Masculino";
-
-        if (usuario != null) {
-            nombre = usuario.getNombre();
-            correo = usuario.getCorreo();
-            telefono = usuario.getTelefono();
-            dni = usuario.getDni();
-            sexo = usuario.getSexo();
-        }
-
-        txtNombreHeader.setText(nombre);
-        tvNombreValor.setText(nombre);
-        tvCorreoValor.setText(correo);
-        tvDniValor.setText(dni);
-
-        findViewById(R.id.btnCerrarSesion).setOnClickListener(v -> {
-
-            // 1. Cierra sesión en Firebase
-            FirebaseAuth.getInstance().signOut();
-
-            // 2. Cierra sesión en Google (para que la próxima vez pida elegir cuenta)
-            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
-            GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
-
-            googleSignInClient.signOut().addOnCompleteListener(this, task -> {
-
-                // 3. Borra tu sesión local
-                getSharedPreferences(LoginActivity.PREF_SESION, MODE_PRIVATE)
-                        .edit()
-                        .clear()
-                        .apply();
-
-                // 4. Regresa al login
-                Intent intent = new Intent(PerfilActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            });
-        });
-
-        if (telefono.length() == 9 && telefono.matches("\\d{9}")) {
-            String telFormateado = telefono.substring(0, 3) + " " +
-                    telefono.substring(3, 6) + " " +
-                    telefono.substring(6);
-            tvTelefonoValor.setText(telFormateado);
-        } else {
-            tvTelefonoValor.setText(telefono);
-        }
-
-        if ("Femenino".equals(sexo)) {
-            fotoPerfil.setImageResource(R.drawable.perfil_femenino);
-        } else {
-            fotoPerfil.setImageResource(R.drawable.perfil_masculino);
-        }
+        usuarioDAO = new UsuarioDAO(this);
+        vincularVistas();
+        cargarDatos();
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+        
+        findViewById(R.id.btnEditarPerfil).setOnClickListener(v -> showEditDialog());
 
-        findViewById(R.id.btnCerrarSesion).setOnClickListener(v -> {
-            getSharedPreferences(LoginActivity.PREF_SESION, MODE_PRIVATE)
-                    .edit()
-                    .clear()
-                    .apply();
-
-            Intent intent = new Intent(PerfilActivity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        });
+        findViewById(R.id.btnCerrarSesion).setOnClickListener(v -> cerrarSesion());
     }
 
+    private void vincularVistas() {
+        txtNombreHeader = findViewById(R.id.txtNombreHeader);
+        tvNombreValor = findViewById(R.id.tvNombreCompletoValor);
+        tvCorreoValor = findViewById(R.id.tvCorreoValor);
+        tvTelefonoValor = findViewById(R.id.tvTelefonoValor);
+        tvDniValor = findViewById(R.id.tvDniValor);
+        fotoPerfil = findViewById(R.id.fotoPerfil);
+    }
+
+    private void cargarDatos() {
+        String correoActual = MainActivity.obtenerCorreoActual(this);
+        usuarioActual = usuarioDAO.buscarPorCorreo(correoActual);
+
+        if (usuarioActual != null) {
+            txtNombreHeader.setText(usuarioActual.getNombre());
+            tvNombreValor.setText(usuarioActual.getNombre());
+            tvCorreoValor.setText(usuarioActual.getCorreo());
+            tvDniValor.setText(usuarioActual.getDni());
+            
+            String telefono = usuarioActual.getTelefono();
+            if (telefono != null && telefono.length() == 9) {
+                tvTelefonoValor.setText(telefono.substring(0, 3) + " " + telefono.substring(3, 6) + " " + telefono.substring(6));
+            } else {
+                tvTelefonoValor.setText(telefono);
+            }
+
+            if ("Femenino".equals(usuarioActual.getSexo())) {
+                fotoPerfil.setImageResource(R.drawable.perfil_femenino);
+            } else {
+                fotoPerfil.setImageResource(R.drawable.perfil_masculino);
+            }
+        }
+    }
+
+    private void showEditDialog() {
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_editar_perfil, null);
+
+        EditText etNombre = view.findViewById(R.id.etEditNombre);
+        EditText etTelefono = view.findViewById(R.id.etEditTelefono);
+        EditText etDni = view.findViewById(R.id.etEditDni);
+        MaterialButton btnGuardar = view.findViewById(R.id.btnGuardarCambios);
+
+        // Pre-llenar con datos actuales
+        etNombre.setText(usuarioActual.getNombre());
+        etTelefono.setText(usuarioActual.getTelefono());
+        etDni.setText(usuarioActual.getDni());
+
+        btnGuardar.setOnClickListener(v -> {
+            String nuevoNombre = etNombre.getText().toString().trim();
+            String nuevoTelefono = etTelefono.getText().toString().trim();
+            String nuevoDni = etDni.getText().toString().trim();
+
+            if (nuevoNombre.isEmpty() || nuevoTelefono.length() < 9 || nuevoDni.length() < 8) {
+                Toast.makeText(this, "Por favor, completa los campos correctamente", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            usuarioActual.setNombre(nuevoNombre);
+            usuarioActual.setTelefono(nuevoTelefono);
+            usuarioActual.setDni(nuevoDni);
+
+            if (usuarioDAO.actualizarUsuario(usuarioActual)) {
+                Toast.makeText(this, "Perfil actualizado correctamente", Toast.LENGTH_SHORT).show();
+                cargarDatos(); // Refrescar la pantalla
+                dialog.dismiss();
+            } else {
+                Toast.makeText(this, "Error al actualizar", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    private void cerrarSesion() {
+        getSharedPreferences(LoginActivity.PREF_SESION, MODE_PRIVATE)
+                .edit()
+                .clear()
+                .apply();
+
+        Intent intent = new Intent(PerfilActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
 }

@@ -19,6 +19,11 @@
         <!-- 🔔 Receiver de notificaciones -->
         <receiver android:name=".RecordatorioActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".QrActivity"
+            android:exported="false" />
+
         <activity
             android:name=".ResultadoActivity"
             android:exported="false" />

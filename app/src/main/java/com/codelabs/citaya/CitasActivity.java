@@ -38,7 +38,6 @@ public class CitasActivity extends AppCompatActivity {
 
         findViewById(R.id.btnBack).setOnClickListener(v -> irAMain());
 
-        // Manejo moderno del botón/gesto de atrás
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -83,21 +82,9 @@ public class CitasActivity extends AppCompatActivity {
 
     private void irAMain() {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(
-                Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                        Intent.FLAG_ACTIVITY_NEW_TASK
-        );
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
-    }
-
-    private SharedPreferences prefsCitasUsuario() {
-        String correo = MainActivity.obtenerCorreoActual(this);
-        return getSharedPreferences(LoginActivity.prefsCitas(correo), MODE_PRIVATE);
-    }
-
-    private SharedPreferences prefsHorariosGlobales() {
-        return getSharedPreferences(LoginActivity.PREF_HORARIOS, MODE_PRIVATE);
     }
 
     private void cargarCitas() {
@@ -144,6 +131,24 @@ public class CitasActivity extends AppCompatActivity {
         LinearLayout btnConfirmarCita = card.findViewById(R.id.btnConfirmarCita);
         LinearLayout btnReprogramarCita = card.findViewById(R.id.btnReprogramarCita);
         LinearLayout btnCancelarCita = card.findViewById(R.id.btnCancelarCita);
+        LinearLayout btnVerQr = card.findViewById(R.id.btnVerQr);
+
+        // Configurar clic para Ver QR
+        btnVerQr.setOnClickListener(v -> {
+            String correoActual = MainActivity.obtenerCorreoActual(this);
+            // Uso del método verificado en UsuarioDAO
+            String nombrePaciente = usuarioDAO.obtenerNombrePorCorreo(correoActual);
+            
+            Intent qrIntent = new Intent(this, QrActivity.class);
+            qrIntent.putExtra("reservaId", reservaId);
+            qrIntent.putExtra("paciente", nombrePaciente);
+            qrIntent.putExtra("doctor", doctor);
+            qrIntent.putExtra("especialidad", especialidad);
+            qrIntent.putExtra("fecha", fecha);
+            qrIntent.putExtra("hora", hora);
+            qrIntent.putExtra("estado", estado);
+            startActivity(qrIntent);
+        });
 
         if ("PENDIENTE".equals(estado) || "CONFIRMADA".equals(estado)) {
             String color = "PENDIENTE".equals(estado) ? "#EF6C00" : "#2E7D32";
@@ -157,28 +162,15 @@ public class CitasActivity extends AppCompatActivity {
             if ("CONFIRMADA".equals(estado)) btnConfirmarCita.setVisibility(View.GONE);
 
             btnConfirmarCita.setOnClickListener(v -> {
-                cambiarEstado(reservaId, "CONFIRMADA");
+                reservaDAO.actualizarEstadoReserva(reservaId, "CONFIRMADA");
                 cargarCitas();
             });
 
             btnReprogramarCita.setOnClickListener(v -> abrirReprogramacion(reservaId, doctor, especialidad, fecha, hora, ubicacion, estado));
 
             btnCancelarCita.setOnClickListener(v -> {
-                // 1. Liberar en SQL
-                cambiarEstado(reservaId, "CANCELADA");
+                reservaDAO.actualizarEstadoReserva(reservaId, "CANCELADA");
                 reservaDAO.liberarHorario(horarioId);
-
-                // 2. Limpiar SharedPreferences para evitar interferencias en ReservaActivity
-                SharedPreferences prefs = prefsHorariosGlobales();
-                Set<String> ocupados = new HashSet<>(prefs.getStringSet("ocupados", new HashSet<>()));
-                ocupados.remove(fecha + "_" + hora); // Clave usada en el calendario
-                prefs.edit().putStringSet("ocupados", ocupados).apply();
-
-                NotificacionesActivity.guardarNotificacion(
-                        this, "Cita cancelada",
-                        "Tu cita con " + doctor + " del " + fecha + " a las " + hora + " fue cancelada.",
-                        "cancelada"
-                );
                 cargarCitas();
             });
 
@@ -190,6 +182,8 @@ public class CitasActivity extends AppCompatActivity {
             configurarBadge(badgeEstado, iconEstado, txtEstado, estado, color, icon, bg);
             layoutOpciones.setVisibility(View.GONE);
             contenedorAnteriores.addView(card);
+            
+            if ("CANCELADA".equals(estado)) btnVerQr.setVisibility(View.GONE);
         }
     }
 
@@ -216,10 +210,6 @@ public class CitasActivity extends AppCompatActivity {
         icono.setColorFilter(Color.parseColor(color));
         texto.setText(estado);
         texto.setTextColor(Color.parseColor(color));
-    }
-
-    private void cambiarEstado(int reservaId, String nuevoEstado) {
-        reservaDAO.actualizarEstadoReserva(reservaId, nuevoEstado);
     }
 
     private void activarTab(TextView activo, TextView inactivo) {

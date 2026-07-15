@@ -26,9 +26,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                android:clickable="true"
+                android:focusable="true">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -37,7 +36,7 @@
                     app:tint="@android:color/white"/>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Volver"
                     android:textColor="@android:color/white"
@@ -58,7 +57,6 @@
                 android:clipToOutline="true"/>
 
             <!-- NOMBRE -->
-
             <TextView
                 android:id="@+id/txtNombreHeader"
                 android:layout_width="wrap_content"
@@ -83,7 +81,6 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="-30dp"
             android:layout_marginTop="-40dp"
             android:layout_marginHorizontal="16dp"
             app:cardCornerRadius="30dp"
@@ -270,13 +267,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- OPCIÓN -->
+                <!-- OPCIÓN EDITAR -->
                 <LinearLayout
+                    android:id="@+id/btnEditarPerfil"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="12dp"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
 
                     <ImageView
                         android:layout_width="30dp"
@@ -385,8 +386,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- BOTÓN -->
-
+        <!-- BOTÓN CERRAR SESIÓN -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCerrarSesion"
             android:layout_width="match_parent"
@@ -401,5 +401,4 @@
             app:iconTint="@android:color/white"/>
 
     </LinearLayout>
-
 </ScrollView>

@@ -28,6 +28,38 @@
                 android:textStyle="bold"
                 android:textColor="#1E1E1E"/>
 
+            <!-- BOTÓN QR DISCRETO -->
+            <LinearLayout
+                android:id="@+id/btnVerQr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_soft"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_help"
+                    app:tint="@color/blue"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ver QR"
+                    android:textColor="@color/blue"
+                    android:textSize="12sp"
+                    android:layout_marginStart="4dp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/badgeEstado"
                 android:layout_width="wrap_content"
