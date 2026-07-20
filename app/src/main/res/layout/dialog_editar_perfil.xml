@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Editar Perfil"
+        android:textColor="#2D7DD2"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- NOMBRE -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre completo"
+        android:textSize="14sp"
+        android:textColor="#777"/>
+
+    <EditText
+        android:id="@+id/etEditNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tu nombre"
+        android:inputType="textPersonName"
+        android:background="@drawable/bg_input"
+        android:padding="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- TELÉFONO -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Teléfono"
+        android:textSize="14sp"
+        android:textColor="#777"/>
+
+    <EditText
+        android:id="@+id/etEditTelefono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="9XXXXXXXX"
+        android:inputType="phone"
+        android:maxLength="9"
+        android:background="@drawable/bg_input"
+        android:padding="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- DNI -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DNI"
+        android:textSize="14sp"
+        android:textColor="#777"/>
+
+    <EditText
+        android:id="@+id/etEditDni"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="XXXXXXXX"
+        android:inputType="number"
+        android:maxLength="8"
+        android:background="@drawable/bg_input"
+        android:padding="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="24dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGuardarCambios"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Guardar Cambios"
+        android:textColor="@android:color/white"
+        app:backgroundTint="#2D7DD2"
+        android:textSize="16sp"
+        app:cornerRadius="12dp"/>
+
+</LinearLayout>
