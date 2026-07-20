@@ -28,7 +28,7 @@ public class ConsultaActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private MaterialButton btnAnalizar;
 
-    private static final String API_KEY = "AQ.Ab8RN6Jbig3w447QT-voM8WRaCvYUxEwwUaXKreu2b0_A2z3ig";
+    private static final String API_KEY = "";
 
     private Set<String> sintomasSeleccionados = new LinkedHashSet<>();
 
