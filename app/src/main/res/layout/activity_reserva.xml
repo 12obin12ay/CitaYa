@@ -1,0 +1,1032 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGray">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- HEADER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/bg_gradient"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_arrow_back"
+                    app:tint="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Volver"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reservar Cita"
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selecciona una especialidad"
+                android:textSize="18sp"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Elige tu doctor y horario"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <!-- ESPECIALIDADES -->
+        <LinearLayout
+            android:id="@+id/layoutEspecialidades"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Especialidades disponibles"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <LinearLayout
+                android:id="@+id/cardCardiologia"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_card_normal"
+                android:padding="12dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="3dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:padding="14dp"
+                    android:background="@drawable/bg_gradient"
+                    android:src="@drawable/ic_cardio"
+                    app:tint="@android:color/white" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cardiología"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3 doctores disponibles"
+                        android:textColor="#000000" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cardMedicina"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_card_normal"
+                android:padding="12dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="3dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:padding="14dp"
+                    android:background="@drawable/bg_gradient"
+                    android:src="@drawable/ic_medicina"
+                    app:tint="@android:color/white" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Medicina General"
+                        android:textStyle="bold"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3 doctores disponibles"
+                        android:textColor="#000000" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cardPediatria"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_card_normal"
+                android:padding="12dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="3dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:padding="14dp"
+                    android:background="@drawable/bg_gradient"
+                    android:src="@drawable/ic_pediatria"
+                    app:tint="@android:color/white" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pediatría"
+                        android:textStyle="bold"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3 doctores disponibles"
+                        android:textColor="#000000" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cardDermatologia"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_card_normal"
+                android:padding="12dp"
+                android:elevation="3dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:padding="14dp"
+                    android:background="@drawable/bg_gradient"
+                    android:src="@drawable/ic_derma"
+                    app:tint="@android:color/white" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dermatología"
+                        android:textStyle="bold"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3 doctores disponibles"
+                        android:textColor="#000000" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/cardNeumologia"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_card_normal"
+                android:padding="12dp"
+                android:layout_marginTop="10dp"
+                android:elevation="3dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:padding="14dp"
+                    android:background="@drawable/bg_gradient"
+                    android:src="@drawable/ic_neumologia"
+                    app:tint="@android:color/white"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Neumología"
+                        android:textStyle="bold"
+                        android:textSize="17sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3 doctores disponibles"
+                        android:textColor="#000000"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/cardGastro"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_card_normal"
+                android:padding="12dp"
+                android:layout_marginTop="10dp"
+                android:elevation="3dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:padding="14dp"
+                    android:background="@drawable/bg_gradient"
+                    android:src="@drawable/ic_gastro"
+                    app:tint="@android:color/white"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gastroenterología"
+                        android:textStyle="bold"
+                        android:textSize="17sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3 doctores disponibles"
+                        android:textColor="#000000"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/cardNeurologia"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_card_normal"
+                android:padding="12dp"
+                android:layout_marginTop="10dp"
+                android:elevation="3dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:padding="14dp"
+                    android:background="@drawable/bg_gradient"
+                    android:src="@drawable/ic_neurologia"
+                    app:tint="@android:color/white"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Neurología"
+                        android:textStyle="bold"
+                        android:textSize="17sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3 doctores disponibles"
+                        android:textColor="#000000"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/cardTraumatologia"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_card_normal"
+                android:padding="12dp"
+                android:layout_marginTop="10dp"
+                android:elevation="3dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:padding="14dp"
+                    android:background="@drawable/bg_gradient"
+                    android:src="@drawable/ic_trauma"
+                    app:tint="@android:color/white"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Traumatología"
+                        android:textStyle="bold"
+                        android:textSize="17sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3 doctores disponibles"
+                        android:textColor="#000000"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- DOCTORES -->
+        <LinearLayout
+            android:id="@+id/layoutDoctores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Doctores disponibles"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="10dp" />
+
+            <LinearLayout
+                android:id="@+id/doc1"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_card_normal"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="3dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/doctor" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dr. Carlos Rodríguez"
+                        android:textStyle="bold"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_star" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" 4.9 • 15 años de experiencia" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/check1"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_check"
+                    android:visibility="gone"
+                    app:tint="#4CAF50" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/doc2"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_card_normal"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="3dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/doctora" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dra. María González"
+                        android:textStyle="bold"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_star" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" 4.8 • 12 años de experiencia" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/check2"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_check"
+                    android:visibility="gone"
+                    app:tint="#4CAF50" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/doc3"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_card_normal"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="3dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/doctor" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dr. Luis Mendoza"
+                        android:textStyle="bold"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_star" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" 5.0 • 18 años de experiencia" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/check3"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_check"
+                    android:visibility="gone"
+                    app:tint="#4CAF50" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/doc4"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_card_normal"
+                android:padding="10dp"
+                android:elevation="3dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/doctora" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dra. Ana Fernández"
+                        android:textStyle="bold"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_star" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" 4.7 • 10 años de experiencia" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/check4"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_check"
+                    android:visibility="gone"
+                    app:tint="#4CAF50" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- FECHA -->
+        <LinearLayout
+            android:id="@+id/layoutFecha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selecciona la fecha"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/etFecha"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_input"
+                android:hint="dd/mm/aaaa"
+                android:focusable="false"
+                android:clickable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"/>
+        </LinearLayout>
+
+        <!-- HORARIOS -->
+        <LinearLayout
+            android:id="@+id/layoutHorarios"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Horarios disponibles"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:id="@+id/hora1"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_hora_selector"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/ic_clock"
+                        app:tint="@color/icon_color_selector"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="09:00"
+                        android:textColor="@color/text_color_selector"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/hora2"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_hora_selector"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/ic_clock"
+                        app:tint="@color/icon_color_selector"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10:00"
+                        android:textColor="@color/text_color_selector"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/hora3"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_hora_selector"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/ic_clock"
+                        app:tint="@color/icon_color_selector"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="11:00"
+                        android:textColor="@color/text_color_selector"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:id="@+id/hora4"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_hora_selector"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/ic_clock"
+                        app:tint="@color/icon_color_selector"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="13:00"
+                        android:textColor="@color/text_color_selector"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/hora5"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_hora_selector"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/ic_clock"
+                        app:tint="@color/icon_color_selector"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="14:00"
+                        android:textColor="@color/text_color_selector"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/hora6"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_hora_selector"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/ic_clock"
+                        app:tint="@color/icon_color_selector"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15:00"
+                        android:textColor="@color/text_color_selector"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:id="@+id/hora7"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_hora_selector"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/ic_clock"
+                        app:tint="@color/icon_color_selector"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="16:00"
+                        android:textColor="@color/text_color_selector"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/hora8"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_hora_selector"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/ic_clock"
+                        app:tint="@color/icon_color_selector"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="17:00"
+                        android:textColor="@color/text_color_selector"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/hora9"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_hora_selector"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/ic_clock"
+                        app:tint="@color/icon_color_selector"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="18:00"
+                        android:textColor="@color/text_color_selector"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <!-- BOTÓN -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirmar"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:text="Confirmar cita"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:textSize="18dp"
+            app:backgroundTint="#43A047"
+            app:cornerRadius="12dp"
+            app:icon="@drawable/ic_calendar"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            android:layout_marginBottom="24dp"
+            app:iconTint="@android:color/white"/>
+    </LinearLayout>
+
+</ScrollView>

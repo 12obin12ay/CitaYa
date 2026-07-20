@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base.Theme.CitaYa" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <!-- 🔥 BARRA BLANCA -->
+        <item name="android:statusBarColor">@android:color/white</item>
+
+        <!-- 🔥 ICONOS OSCUROS -->
+        <item name="android:windowLightStatusBar">true</item>
+
+    </style>
+
+    <style name="Theme.CitaYa" parent="Base.Theme.CitaYa" />
+
+</resources>
