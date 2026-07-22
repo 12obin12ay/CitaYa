@@ -47,11 +47,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         TextView txtName = findViewById(R.id.txtName);
-
         String correoActual = obtenerCorreoActual(this);
-
         UsuarioDAO usuarioDAO = new UsuarioDAO(this);
-
         Usuario usuario = usuarioDAO.buscarPorCorreo(correoActual);
 
         if (usuario != null) {
@@ -95,10 +92,8 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-
-            if (id == R.id.nav_inicio) {
-                return true;
-            } else if (id == R.id.nav_citas) {
+            if (id == R.id.nav_inicio) return true;
+            else if (id == R.id.nav_citas) {
                 startActivity(new Intent(this, CitasActivity.class));
                 return true;
             } else if (id == R.id.nav_alertas) {
@@ -108,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, PerfilActivity.class));
                 return true;
             }
-
             return false;
         });
     }
@@ -142,38 +136,29 @@ public class MainActivity extends AppCompatActivity {
 
     public static int contarNoLeidas(Context context) {
         String correo = obtenerCorreoActual(context);
-
         SharedPreferences prefs = context.getSharedPreferences(
                 LoginActivity.prefsNotificaciones(correo),
                 Context.MODE_PRIVATE
         );
-
         Set<String> lista = prefs.getStringSet("lista", new HashSet<>());
-
         SharedPreferences leidas = context.getSharedPreferences(
                 LoginActivity.prefsNotificacionesLeidas(correo),
                 Context.MODE_PRIVATE
         );
-
         int total = 0;
-
         for (String item : lista) {
             String[] partes = item.split("\\|");
             if (partes.length < 5) continue;
-
             String id = partes[0];
-
             if (!leidas.getBoolean(id, false)) {
                 total++;
             }
         }
-
         return total;
     }
 
     private void actualizarBadges() {
         int cantidad = contarNoLeidas(this);
-
         if (txtBadge != null) {
             if (cantidad > 0) {
                 txtBadge.setVisibility(View.VISIBLE);
@@ -182,10 +167,8 @@ public class MainActivity extends AppCompatActivity {
                 txtBadge.setVisibility(View.GONE);
             }
         }
-
         if (bottomNav != null) {
             BadgeDrawable badge = bottomNav.getOrCreateBadge(R.id.nav_alertas);
-
             if (cantidad > 0) {
                 badge.setVisible(true);
                 badge.setNumber(cantidad);
@@ -215,36 +198,18 @@ public class MainActivity extends AppCompatActivity {
             iconCorazon.setBackgroundResource(R.drawable.bg_icon_red);
             iconVital.setColorFilter(Color.RED);
             cardEstado.setCardBackgroundColor(Color.parseColor("#FFEBEE"));
-
         } else if ("MODERADO".equals(nivel)) {
             txtEstado.setText("Precaución");
             txtEstado.setTextColor(Color.parseColor("#FFA000"));
             iconCorazon.setBackgroundResource(R.drawable.bg_icon_orange);
             iconVital.setColorFilter(Color.parseColor("#FFA000"));
             cardEstado.setCardBackgroundColor(Color.parseColor("#FFF8E1"));
-
         } else {
             txtEstado.setText("Estable");
             txtEstado.setTextColor(Color.parseColor("#4CAF50"));
             iconCorazon.setBackgroundResource(R.drawable.bg_icon_green);
             iconVital.setColorFilter(Color.parseColor("#4CAF50"));
             cardEstado.setCardBackgroundColor(Color.parseColor("#E8F5E9"));
-        }
-    }
-
-    private String formatearHoraConAMPM(String hora) {
-        try {
-            String[] partes = hora.trim().split(":");
-            int horas = Integer.parseInt(partes[0].trim());
-            String minutos = partes[1].trim().substring(0, 2);
-
-            String sufijo = horas < 12 ? "AM" : "PM";
-            int hora12 = horas % 12;
-            if (hora12 == 0) hora12 = 12;
-
-            return String.format("%02d:%s %s", hora12, minutos, sufijo);
-        } catch (Exception e) {
-            return hora;
         }
     }
 
@@ -276,15 +241,14 @@ public class MainActivity extends AppCompatActivity {
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 String estado = cursor.getString(cursor.getColumnIndexOrThrow("estado"));
-
-                if (!estado.equals("PENDIENTE") && !estado.equals("CONFIRMADA")) {
-                    continue;
-                }
+                if (!estado.equals("PENDIENTE") && !estado.equals("CONFIRMADA")) continue;
 
                 String fecha = cursor.getString(cursor.getColumnIndexOrThrow("fecha"));
                 String hora = cursor.getString(cursor.getColumnIndexOrThrow("hora"));
 
-                long tiempoCita = obtenerTiempoCita24(fecha, hora);
+                // 🔥 CORREGIDO: Usamos obtenerTiempoCita (que maneja AM/PM) 
+                // en lugar de obtenerTiempoCita24 para que reconozca los datos de la v7.
+                long tiempoCita = obtenerTiempoCita(fecha, hora);
 
                 if (tiempoCita >= ahora && tiempoCita < tiempoMasProximo) {
                     tiempoMasProximo = tiempoCita;
@@ -300,18 +264,12 @@ public class MainActivity extends AppCompatActivity {
         if (doctorProximo != null) {
             txtDoctor.setText(doctorProximo);
             txtEspecialidad.setText(especialidadProxima);
-            txtHora.setText(formatearHoraConAMPM(horaProxima));
+            txtHora.setText(horaProxima);
 
             String[] fechaParts = fechaProxima.split("/");
-
             if (fechaParts.length >= 2) {
                 txtDia.setText(fechaParts[0]);
-
-                String[] meses = {
-                        "ENE", "FEB", "MAR", "ABR", "MAY", "JUN",
-                        "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"
-                };
-
+                String[] meses = {"ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"};
                 try {
                     int mesIndex = Integer.parseInt(fechaParts[1]) - 1;
                     txtMes.setText(meses[mesIndex]);
@@ -319,36 +277,19 @@ public class MainActivity extends AppCompatActivity {
                     txtMes.setText(fechaParts[1]);
                 }
             }
-
             cardProximaCita.setVisibility(View.VISIBLE);
         } else {
             cardProximaCita.setVisibility(View.GONE);
         }
     }
 
-    private long obtenerTiempoCita24(String fecha, String hora) {
-        try {
-            java.text.SimpleDateFormat formato =
-                    new java.text.SimpleDateFormat("d/M/yyyy HH:mm", java.util.Locale.US);
-
-            java.util.Date date = formato.parse(fecha + " " + hora);
-
-            return date != null ? date.getTime() : Long.MAX_VALUE;
-
-        } catch (Exception e) {
-            return Long.MAX_VALUE;
-        }
-    }
-
     private long obtenerTiempoCita(String fecha, String hora) {
         try {
+            // Formato d/M/yyyy hh:mm a (Soporta AM/PM)
             java.text.SimpleDateFormat formato =
                     new java.text.SimpleDateFormat("d/M/yyyy hh:mm a", java.util.Locale.US);
-
             java.util.Date date = formato.parse(fecha + " " + hora);
-
             return date != null ? date.getTime() : Long.MAX_VALUE;
-
         } catch (Exception e) {
             return Long.MAX_VALUE;
         }
@@ -356,19 +297,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void aplicarEfectoClick(View view) {
         if (view == null) return;
-
         view.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     v.animate().scaleX(0.95f).scaleY(0.95f).setDuration(100).start();
                     break;
-
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
                     v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                     break;
             }
-
             return false;
         });
     }

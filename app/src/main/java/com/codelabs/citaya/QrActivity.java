@@ -48,10 +48,12 @@ public class QrActivity extends AppCompatActivity {
         txtFechaHora.setText("Fecha: " + fecha + " - " + hora);
         txtEstado.setText("Estado: " + estado);
 
-        // Generar Contenido del QR (Opción B: ID + Resumen)
+        // 🔥 ACTUALIZADO: Contenido del QR con más información
         String qrContent = "CITAYA-RESERVA-" + reservaId + "\n" +
                            "Paciente: " + paciente + "\n" +
-                           "Fecha: " + fecha;
+                           "Especialidad: " + especialidad + "\n" +
+                           "Fecha: " + fecha + "\n" +
+                           "Hora: " + hora;
 
         // Generar QR dinámicamente
         try {
